@@ -130,13 +130,25 @@ function hb_getNews() {
   } catch { return HB_DEFAULTS.news; }
 }
 
+function hb_safeSave(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch(e) {
+    if (e.name === 'QuotaExceededError' || e.code === 22) {
+      alert('⚠️ Storage full! Your browser\'s local storage is nearly full.\n\nTip: Use an image URL (paste a link) instead of uploading a file — uploaded photos take much more space.');
+    }
+    return false;
+  }
+}
+
 function hb_saveGiveaway(data) {
   data.lastUpdated = new Date().toISOString();
-  localStorage.setItem('hb_giveaway', JSON.stringify(data));
+  return hb_safeSave('hb_giveaway', data);
 }
 
 function hb_saveNews(articles) {
-  localStorage.setItem('hb_news', JSON.stringify(articles));
+  return hb_safeSave('hb_news', articles);
 }
 
 function hb_getProducts() {
@@ -147,7 +159,7 @@ function hb_getProducts() {
 }
 
 function hb_saveProducts(products) {
-  localStorage.setItem('hb_products', JSON.stringify(products));
+  return hb_safeSave('hb_products', products);
 }
 
 function hb_getEntries() {
@@ -175,7 +187,28 @@ function hb_getSiteSettings() {
 }
 
 function hb_saveSiteSettings(data) {
-  localStorage.setItem('hb_siteSettings', JSON.stringify(data));
+  return hb_safeSave('hb_siteSettings', data);
+}
+
+/* Resize an image file to max dimensions before storing as base64.
+   Returns a Promise<string> (base64 dataURL). */
+function hb_resizeImage(file, maxW, maxH, quality) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let w = img.width, h = img.height;
+      if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+      if (h > maxH) { w = Math.round(w * maxH / h); h = maxH; }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', quality || 0.75));
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
 }
 
 function hb_formatDate(iso) {

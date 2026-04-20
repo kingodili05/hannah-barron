@@ -928,12 +928,10 @@
     const file = input.files[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return; }
-    const reader = new FileReader();
-    reader.onload = e => {
-      showTruckPreview(e.target.result);
+    hb_resizeImage(file, 1200, 800, 0.8).then(data => {
+      showTruckPreview(data);
       document.getElementById('truckImageUrl').value = '';
-    };
-    reader.readAsDataURL(file);
+    });
   }
 
   function handleTruckUrl(url) {
@@ -1209,13 +1207,11 @@
     const file = input.files[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return; }
-    const reader = new FileReader();
-    reader.onload = e => {
-      currentHeroImage = e.target.result;
-      showHeroImgPreview(e.target.result);
+    hb_resizeImage(file, 900, 1200, 0.82).then(data => {
+      currentHeroImage = data;
+      showHeroImgPreview(data);
       document.getElementById('heroImgUrl').value = '';
-    };
-    reader.readAsDataURL(file);
+    });
   }
 
   function handleHeroImgUrl(url) {
@@ -1253,10 +1249,10 @@
     const btn = document.getElementById('saveSiteBtn');
     btn.textContent = 'Saving...'; btn.classList.add('saving');
     const urlField = document.getElementById('heroImgUrl').value.trim();
-    hb_saveSiteSettings({ heroImage: currentHeroImage || urlField || '' });
+    const ok = hb_saveSiteSettings({ heroImage: currentHeroImage || urlField || '' });
     setTimeout(() => {
       btn.textContent = 'Save Site Photos'; btn.classList.remove('saving');
-      showToast('✓ Site photos updated!');
+      if (ok) showToast('✓ Site photos updated!');
     }, 500);
   }
 
@@ -1265,13 +1261,11 @@
     const file = input.files[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return; }
-    const reader = new FileReader();
-    reader.onload = e => {
-      currentNewsImage = e.target.result;
-      showNewsImgPreview(e.target.result);
+    hb_resizeImage(file, 900, 600, 0.8).then(data => {
+      currentNewsImage = data;
+      showNewsImgPreview(data);
       document.getElementById('newsImgUrl').value = '';
-    };
-    reader.readAsDataURL(file);
+    });
   }
 
   function handleNewsImgUrl(url) {
@@ -1395,13 +1389,11 @@
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return; }
     const contentId = wrapId.replace('Wrap', 'Content');
-    const reader = new FileReader();
-    reader.onload = e => {
-      currentProdImages[dataKey] = e.target.result;
-      showProdImgPreview(wrapId, contentId, e.target.result, dataKey);
+    hb_resizeImage(file, 800, 800, 0.8).then(data => {
+      currentProdImages[dataKey] = data;
+      showProdImgPreview(wrapId, contentId, data, dataKey);
       if (dataKey === 'prodImg') document.getElementById('prodImgUrl').value = '';
-    };
-    reader.readAsDataURL(file);
+    });
   }
 
   function handleProdImgUrl(url, dataKey, wrapId, contentId) {
