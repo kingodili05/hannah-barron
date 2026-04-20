@@ -1152,107 +1152,225 @@
 
     /* ── Private Winner View ────────────────────────────────── */
     .private-winner-wrap {
-      text-align: center; padding: 40px 20px;
+      text-align: center;
+      padding: 40px 20px;
     }
+
     .private-winner-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 8px 20px; border-radius: 100px;
-      background: rgba(34,197,94,.15); border: 1px solid rgba(34,197,94,.3);
-      font-family: var(--font-display); font-size: .75rem;
-      letter-spacing: 3px; text-transform: uppercase; color: #4ade80;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      border-radius: 100px;
+      background: rgba(34, 197, 94, .15);
+      border: 1px solid rgba(34, 197, 94, .3);
+      font-family: var(--font-display);
+      font-size: .75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #4ade80;
       margin-bottom: 24px;
     }
+
     .private-winner-title {
       font-family: var(--font-display);
       font-size: clamp(2.8rem, 7vw, 5.5rem);
-      font-weight: 700; text-transform: uppercase;
-      letter-spacing: -2px; line-height: 1;
-      color: var(--white); margin-bottom: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 12px;
     }
-    .private-winner-title span { color: var(--orange-400); display: block; }
+
+    .private-winner-title span {
+      color: var(--orange-400);
+      display: block;
+    }
+
     .private-winner-prize {
-      font-size: 1.05rem; color: rgba(255,255,255,.6);
-      margin-bottom: 32px; line-height: 1.7;
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, .6);
+      margin-bottom: 32px;
+      line-height: 1.7;
     }
+
     .private-winner-note {
-      font-size: .82rem; color: rgba(255,255,255,.35);
-      max-width: 380px; margin: 0 auto;
+      font-size: .82rem;
+      color: rgba(255, 255, 255, .35);
+      max-width: 380px;
+      margin: 0 auto;
     }
 
     /* ── Entry Modal ─────────────────────────────────────────── */
     .entry-modal-backdrop {
-      position: fixed; inset: 0; z-index: 900;
-      background: rgba(0,0,0,.6); backdrop-filter: blur(6px);
-      display: flex; align-items: center; justify-content: center;
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: rgba(0, 0, 0, .6);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 24px;
-      opacity: 0; pointer-events: none;
+      opacity: 0;
+      pointer-events: none;
       transition: opacity 250ms ease;
     }
-    .entry-modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+    .entry-modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
     .entry-modal {
-      background: #fff; border-radius: 20px;
-      padding: 40px; width: 100%; max-width: 480px;
-      max-height: 90vh; overflow-y: auto;
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
       transform: scale(0.95) translateY(12px);
-      transition: transform 300ms cubic-bezier(0.23,1,0.32,1);
-      box-shadow: 0 24px 80px rgba(0,0,0,.35);
+      transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .35);
     }
-    .entry-modal-backdrop.open .entry-modal { transform: scale(1) translateY(0); }
+
+    .entry-modal-backdrop.open .entry-modal {
+      transform: scale(1) translateY(0);
+    }
+
     .entry-modal-logo {
-      font-size: 2rem; text-align: center; margin-bottom: 6px;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 6px;
     }
+
     .entry-modal-title {
-      font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
-      text-transform: uppercase; text-align: center; color: #0e1f0a;
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-align: center;
+      color: #0e1f0a;
       margin-bottom: 4px;
     }
+
     .entry-modal-sub {
-      text-align: center; font-size: .85rem; color: #56694e; margin-bottom: 28px;
+      text-align: center;
+      font-size: .85rem;
+      color: #56694e;
+      margin-bottom: 28px;
     }
-    .entry-form-group { margin-bottom: 16px; }
+
+    .entry-form-group {
+      margin-bottom: 16px;
+    }
+
     .entry-form-label {
-      display: block; font-size: .8rem; font-weight: 600;
-      color: #2d3b28; margin-bottom: 6px;
+      display: block;
+      font-size: .8rem;
+      font-weight: 600;
+      color: #2d3b28;
+      margin-bottom: 6px;
     }
+
     .entry-form-input {
-      width: 100%; padding: 12px 14px;
-      background: #faf6ef; border: 1.5px solid #f0e8d8;
-      border-radius: 8px; font-size: .92rem; font-family: inherit;
-      color: #111810; outline: none;
+      width: 100%;
+      padding: 12px 14px;
+      background: #faf6ef;
+      border: 1.5px solid #f0e8d8;
+      border-radius: 8px;
+      font-size: .92rem;
+      font-family: inherit;
+      color: #111810;
+      outline: none;
       transition: border-color 150ms ease, box-shadow 150ms ease;
     }
+
     .entry-form-input:focus {
-      border-color: #346b22; box-shadow: 0 0 0 3px rgba(52,107,34,.1);
+      border-color: #346b22;
+      box-shadow: 0 0 0 3px rgba(52, 107, 34, .1);
     }
+
     .entry-submit-btn {
-      width: 100%; padding: 14px;
-      background: #e8640a; color: white; border: none;
-      border-radius: 10px; cursor: pointer;
-      font-family: var(--font-display); font-size: 1rem;
-      font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      width: 100%;
+      padding: 14px;
+      background: #e8640a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       margin-top: 8px;
       transition: background 150ms ease, transform 160ms ease;
     }
-    .entry-submit-btn:hover { background: #c4520a; }
-    .entry-submit-btn:active { transform: scale(0.97); }
+
+    .entry-submit-btn:hover {
+      background: #c4520a;
+    }
+
+    .entry-submit-btn:active {
+      transform: scale(0.97);
+    }
+
     .entry-close-btn {
-      position: absolute; top: 16px; right: 16px;
-      width: 32px; height: 32px; border-radius: 50%;
-      background: #f0e8d8; border: none; cursor: pointer;
-      font-size: .9rem; display: grid; place-items: center;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f0e8d8;
+      border: none;
+      cursor: pointer;
+      font-size: .9rem;
+      display: grid;
+      place-items: center;
     }
-    .entry-modal { position: relative; }
-    .entry-success { text-align: center; padding: 16px 0; }
-    .entry-success-icon { font-size: 3.5rem; margin-bottom: 16px; }
+
+    .entry-modal {
+      position: relative;
+    }
+
+    .entry-success {
+      text-align: center;
+      padding: 16px 0;
+    }
+
+    .entry-success-icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+    }
+
     .entry-success-title {
-      font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
-      text-transform: uppercase; color: #0e1f0a; margin-bottom: 8px;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #0e1f0a;
+      margin-bottom: 8px;
     }
-    .entry-success-text { font-size: .9rem; color: #56694e; line-height: 1.7; }
+
+    .entry-success-text {
+      font-size: .9rem;
+      color: #56694e;
+      line-height: 1.7;
+    }
+
     .entry-success-id {
-      display: inline-block; margin-top: 16px; padding: 8px 16px;
-      background: #f0e8d8; border-radius: 8px;
-      font-size: .78rem; color: #2d3b28; font-weight: 600;
+      display: inline-block;
+      margin-top: 16px;
+      padding: 8px 16px;
+      background: #f0e8d8;
+      border-radius: 8px;
+      font-size: .78rem;
+      color: #2d3b28;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -1279,6 +1397,7 @@
             <a href="#" aria-label="YouTube" title="YouTube">▶</a>
             <a href="#" aria-label="Instagram" title="Instagram">📷</a>
             <a href="#" aria-label="TikTok" title="TikTok">🎵</a>
+            <a href="#" aria-label="Telegram" title="Telegram">✈️</a>
           </div>
           <a href="store.html" class="btn btn-primary btn-sm">Shop Now</a>
           <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Open menu">
@@ -1535,85 +1654,8 @@
         </div>
         <a href="media.html" class="btn btn-outline">View All</a>
       </div>
-      <div class="content-grid">
-        <div class="video-card reveal" style="transition-delay:0ms">
-          <div class="video-thumb vt-1">🐟
-            <div class="video-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="white">
-                <path d="M5 3l10 5-10 5V3z" />
-              </svg></div>
-            <div class="video-duration">12:34</div>
-          </div>
-          <div class="video-info">
-            <div class="video-tag">Noodling</div>
-            <div class="video-title">BIGGEST Flathead I've EVER Caught!! (100+ lbs)</div>
-            <div class="video-meta"><span>1.2M views</span><span>3 weeks ago</span></div>
-          </div>
-        </div>
-        <div class="video-card reveal" style="transition-delay:70ms">
-          <div class="video-thumb vt-2">🦌
-            <div class="video-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="white">
-                <path d="M5 3l10 5-10 5V3z" />
-              </svg></div>
-            <div class="video-duration">18:22</div>
-          </div>
-          <div class="video-info">
-            <div class="video-tag">Hunting</div>
-            <div class="video-title">Opening Day Bow Hunt — Alabama Whitetail</div>
-            <div class="video-meta"><span>847K views</span><span>1 month ago</span></div>
-          </div>
-        </div>
-        <div class="video-card reveal" style="transition-delay:140ms">
-          <div class="video-thumb vt-3">🎣
-            <div class="video-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="white">
-                <path d="M5 3l10 5-10 5V3z" />
-              </svg></div>
-            <div class="video-duration">22:10</div>
-          </div>
-          <div class="video-info">
-            <div class="video-tag">Fishing</div>
-            <div class="video-title">Jug Fishing All Night Long — Massive Catch!</div>
-            <div class="video-meta"><span>653K views</span><span>1 month ago</span></div>
-          </div>
-        </div>
-        <div class="video-card reveal" style="transition-delay:210ms">
-          <div class="video-thumb vt-4">🤚
-            <div class="video-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="white">
-                <path d="M5 3l10 5-10 5V3z" />
-              </svg></div>
-            <div class="video-duration">15:48</div>
-          </div>
-          <div class="video-info">
-            <div class="video-tag">Noodling</div>
-            <div class="video-title">Teaching My Little Sister to Noodle for the First Time</div>
-            <div class="video-meta"><span>2.1M views</span><span>2 months ago</span></div>
-          </div>
-        </div>
-        <div class="video-card reveal" style="transition-delay:280ms">
-          <div class="video-thumb vt-5">🏹
-            <div class="video-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="white">
-                <path d="M5 3l10 5-10 5V3z" />
-              </svg></div>
-            <div class="video-duration">9:55</div>
-          </div>
-          <div class="video-info">
-            <div class="video-tag">Hunting</div>
-            <div class="video-title">Turkey Season is HERE — Let's Get One!</div>
-            <div class="video-meta"><span>589K views</span><span>2 months ago</span></div>
-          </div>
-        </div>
-        <div class="video-card reveal" style="transition-delay:350ms">
-          <div class="video-thumb vt-6">🌊
-            <div class="video-play"><svg width="16" height="16" viewBox="0 0 16 16" fill="white">
-                <path d="M5 3l10 5-10 5V3z" />
-              </svg></div>
-            <div class="video-duration">26:14</div>
-          </div>
-          <div class="video-info">
-            <div class="video-tag">Fishing</div>
-            <div class="video-title">Limb Line Fishing the River Bottoms of Alabama</div>
-            <div class="video-meta"><span>421K views</span><span>3 months ago</span></div>
-          </div>
-        </div>
+      <div class="content-grid" id="videoGrid">
+        <!-- Videos populated by JS below — paste YouTube URLs in the VIDEOS array -->
       </div>
     </div>
   </section>
@@ -1621,7 +1663,7 @@
   <!-- ── Social Proof ───────────────────────────────────────────── -->
   <div class="social-proof">
     <div class="container">
-      <div class="social-grid">
+      <div class="social-grid" style="grid-template-columns:repeat(5,1fr)">
         <div class="social-stat reveal" style="transition-delay:0ms">
           <div class="social-stat-platform">▶ YouTube</div>
           <div class="social-stat-num">985K</div>
@@ -1641,6 +1683,11 @@
           <div class="social-stat-platform">👍 Facebook</div>
           <div class="social-stat-num">2.7M</div>
           <div class="social-stat-label">Followers</div>
+        </div>
+        <div class="social-stat reveal" style="transition-delay:320ms;border-right:none">
+          <div class="social-stat-platform">✈️ Telegram</div>
+          <div class="social-stat-num">—</div>
+          <div class="social-stat-label">Members</div>
         </div>
       </div>
     </div>
@@ -1736,6 +1783,7 @@
             <a href="#" aria-label="YouTube">▶</a>
             <a href="#" aria-label="Instagram">📷</a>
             <a href="#" aria-label="TikTok">🎵</a>
+            <a href="#" aria-label="Telegram">✈️</a>
             <a href="#" aria-label="Facebook">👍</a>
           </div>
         </div>
@@ -1790,19 +1838,20 @@
 
         <div class="entry-form-group">
           <label class="entry-form-label" for="entryFullName">Full Name *</label>
-          <input class="entry-form-input" id="entryFullName" type="text" placeholder="Your full name" required/>
+          <input class="entry-form-input" id="entryFullName" type="text" placeholder="Your full name" required />
         </div>
         <div class="entry-form-group">
           <label class="entry-form-label" for="entryEmail">Email Address *</label>
-          <input class="entry-form-input" id="entryEmail" type="email" placeholder="your@email.com" required/>
+          <input class="entry-form-input" id="entryEmail" type="email" placeholder="your@email.com" required />
         </div>
         <div class="entry-form-group">
-          <label class="entry-form-label" for="entryPhone">Phone Number <span style="font-weight:400;color:#a8b8a0">(optional)</span></label>
-          <input class="entry-form-input" id="entryPhone" type="tel" placeholder="(555) 000-0000"/>
+          <label class="entry-form-label" for="entryPhone">Phone Number <span
+              style="font-weight:400;color:#a8b8a0">(optional)</span></label>
+          <input class="entry-form-input" id="entryPhone" type="tel" placeholder="(555) 000-0000" />
         </div>
         <div class="entry-form-group">
           <label class="entry-form-label" for="entryLocation">City, State *</label>
-          <input class="entry-form-input" id="entryLocation" type="text" placeholder="e.g. Dallas, TX" required/>
+          <input class="entry-form-input" id="entryLocation" type="text" placeholder="e.g. Dallas, TX" required />
         </div>
         <div id="entryError" style="color:#ef4444;font-size:.82rem;margin-bottom:10px;display:none"></div>
         <button class="entry-submit-btn" onclick="submitEntry()">Submit My Entry 🎉</button>
@@ -1814,7 +1863,7 @@
           <div class="entry-success-icon">🎉</div>
           <div class="entry-success-title">You're Entered!</div>
           <div class="entry-success-text">
-            Good luck, <strong id="entrySuccessName"></strong>!<br/>
+            Good luck, <strong id="entrySuccessName"></strong>!<br />
             Hannah will announce the winner live on YouTube. Keep an eye on your email!
           </div>
           <div class="entry-success-id" id="entrySuccessId"></div>
@@ -1896,7 +1945,7 @@
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
     /* ── Private winner token: grab from URL and store ─────────── */
-    (function() {
+    (function () {
       const params = new URLSearchParams(location.search);
       const t = params.get('w');
       if (t) {
@@ -1944,7 +1993,7 @@
       const entryBtn = document.getElementById('giveawayEntryBtn');
       entryBtn.textContent = g.entryCtaText || 'Enter the Giveaway';
       entryBtn.href = '#';
-      entryBtn.onclick = function(e) { e.preventDefault(); openEntryModal(); };
+      entryBtn.onclick = function (e) { e.preventDefault(); openEntryModal(); };
 
       // Winner vs. entry state
       if (g.winnerName) {
@@ -2087,16 +2136,16 @@
       document.getElementById('entryModalBackdrop').classList.remove('open');
     }
 
-    document.getElementById('entryModalBackdrop').addEventListener('click', function(e) {
+    document.getElementById('entryModalBackdrop').addEventListener('click', function (e) {
       if (e.target === this) closeEntryModal();
     });
 
     function submitEntry() {
-      const name     = document.getElementById('entryFullName').value.trim();
-      const email    = document.getElementById('entryEmail').value.trim();
-      const phone    = document.getElementById('entryPhone').value.trim();
+      const name = document.getElementById('entryFullName').value.trim();
+      const email = document.getElementById('entryEmail').value.trim();
+      const phone = document.getElementById('entryPhone').value.trim();
       const location = document.getElementById('entryLocation').value.trim();
-      const errEl    = document.getElementById('entryError');
+      const errEl = document.getElementById('entryError');
 
       if (!name || !email || !location) {
         errEl.textContent = 'Please fill in all required fields.';
@@ -2117,9 +2166,9 @@
       }
 
       const entry = {
-        id:       'entry-' + Date.now(),
+        id: 'entry-' + Date.now(),
         name, email, phone, location,
-        date:     new Date().toISOString()
+        date: new Date().toISOString()
       };
 
       hb_addEntry(entry);
@@ -2133,6 +2182,47 @@
       if (name) document.getElementById('entrySuccessName').textContent = name;
       document.getElementById('entrySuccessId').textContent = 'Entry ID: ' + id;
     }
+
+    /* ── Videos ─────────────────────────────────────────────────── */
+    // ↓ Replace each url with a real YouTube link from Hannah's channel
+    const VIDEOS = [
+      { url: 'https://www.youtube.com/watch?v=uMQnCnQdeRI', tag: 'Noodling', title: 'BIGGEST Flathead I\'ve EVER Caught!! (100+ lbs)', meta: '1.2M views' },
+      { url: 'https://www.youtube.com/watch?v=a0Vmwk0cOH8', tag: 'Hunting', title: 'Opening Day Bow Hunt — Alabama Whitetail', meta: '847K views' },
+      { url: 'https://www.youtube.com/watch?v=hEXedbRIaUI', tag: 'Fishing', title: 'Jug Fishing All Night Long — Massive Catch!', meta: '653K views' },
+      { url: 'https://www.youtube.com/watch?v=XF0UvUydOaM', tag: 'Noodling', title: 'Teaching My Little Sister to Noodle for the First Time', meta: '2.1M views' },
+      { url: 'https://www.youtube.com/watch?v=pqoM7xWhvUM', tag: 'Hunting', title: 'Turkey Season is HERE — Let\'s Get One!', meta: '589K views' },
+      { url: 'https://www.youtube.com/watch?v=NCLKlHgy708', tag: 'Fishing', title: 'Limb Line Fishing the River Bottoms of Alabama', meta: '421K views' },
+    ];
+
+    const TAG_COLORS = { Noodling: '#0a2a14', Hunting: '#1a1208', Fishing: '#081830' };
+
+    function getYouTubeId(url) {
+      const m = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?]+)/);
+      return m ? m[1] : null;
+    }
+
+    (function renderVideos() {
+      const grid = document.getElementById('videoGrid');
+      const playIcon = `<svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M5 3l10 5-10 5V3z"/></svg>`;
+      grid.innerHTML = VIDEOS.map((v, i) => {
+        const id = getYouTubeId(v.url);
+        const thumb = id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
+        const bg = TAG_COLORS[v.tag] || '#0a2a14';
+        return `
+          <a href="${v.url}" target="_blank" rel="noopener" class="video-card reveal" style="transition-delay:${i * 70}ms;text-decoration:none;color:inherit">
+            <div class="video-thumb" style="background:${bg};position:relative">
+              ${thumb ? `<img src="${thumb}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>` : ''}
+              <div class="video-play">${playIcon}</div>
+            </div>
+            <div class="video-info">
+              <div class="video-tag">${v.tag}</div>
+              <div class="video-title">${v.title}</div>
+              <div class="video-meta"><span>${v.meta}</span><span>YouTube ↗</span></div>
+            </div>
+          </a>`;
+      }).join('');
+      grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    })();
 
     /* ── Newsletter ────────────────────────────────────────────── */
     function handleNewsletter(e) {
