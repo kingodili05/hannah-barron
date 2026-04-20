@@ -6,7 +6,7 @@
 
 const HB_DEFAULTS = {
   siteSettings: {
-    heroImage: ""
+    heroImage: "hannah.jpg"  // put your photo file in the project folder with this name
   },
   products: [
     {
