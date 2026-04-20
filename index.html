@@ -2184,17 +2184,17 @@
     }
 
     /* ── Videos ─────────────────────────────────────────────────── */
-    // ↓ Only set the url and tag — titles are fetched automatically from YouTube
+    // ↓ Just paste YouTube URLs — title AND tag are detected automatically
     const VIDEOS = [
-      { url: 'https://www.youtube.com/watch?v=uMQnCnQdeRI', tag: 'Noodling' },
-      { url: 'https://www.youtube.com/watch?v=a0Vmwk0cOH8', tag: 'Hunting'  },
-      { url: 'https://www.youtube.com/watch?v=hEXedbRIaUI', tag: 'Fishing'  },
-      { url: 'https://www.youtube.com/watch?v=XF0UvUydOaM', tag: 'Noodling' },
-      { url: 'https://www.youtube.com/watch?v=pqoM7xWhvUM', tag: 'Hunting'  },
-      { url: 'https://www.youtube.com/watch?v=NCLKlHgy708', tag: 'Fishing'  },
+      'https://www.youtube.com/watch?v=uMQnCnQdeRI',
+      'https://www.youtube.com/watch?v=a0Vmwk0cOH8',
+      'https://www.youtube.com/watch?v=hEXedbRIaUI',
+      'https://www.youtube.com/watch?v=XF0UvUydOaM',
+      'https://www.youtube.com/watch?v=pqoM7xWhvUM',
+      'https://www.youtube.com/watch?v=NCLKlHgy708',
     ];
 
-    const TAG_COLORS = { Noodling: '#0a2a14', Hunting: '#1a1208', Fishing: '#081830' };
+    const TAG_COLORS = { Noodling: '#0a2a14', Hunting: '#1a1208', Fishing: '#081830', Outdoors: '#1a2a10' };
     const playIcon = `<svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M5 3l10 5-10 5V3z"/></svg>`;
 
     function getYouTubeId(url) {
@@ -2202,18 +2202,26 @@
       return m ? m[1] : null;
     }
 
-    function buildVideoCard(v, i, title) {
-      const id    = getYouTubeId(v.url);
+    function detectTag(title) {
+      const t = title.toLowerCase();
+      if (/noodl|catfish|flathead|hand.?grab|bare.?hand/.test(t)) return 'Noodling';
+      if (/hunt|deer|buck|doe|turkey|hog|bow|rifle|shoot|blind|stand/.test(t)) return 'Hunting';
+      if (/fish|bass|crappie|rod|reel|cast|jug|trotline|limb.?line|kayak/.test(t)) return 'Fishing';
+      return 'Outdoors';
+    }
+
+    function buildVideoCard(url, i, title, tag) {
+      const id    = getYouTubeId(url);
       const thumb = id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
-      const bg    = TAG_COLORS[v.tag] || '#0a2a14';
+      const bg    = TAG_COLORS[tag] || '#0a2a14';
       return `
-        <a href="${v.url}" target="_blank" rel="noopener" class="video-card reveal" style="transition-delay:${i*70}ms;text-decoration:none;color:inherit">
+        <a href="${url}" target="_blank" rel="noopener" class="video-card reveal" style="transition-delay:${i*70}ms;text-decoration:none;color:inherit">
           <div class="video-thumb" style="background:${bg};position:relative">
             ${thumb ? `<img src="${thumb}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>` : ''}
             <div class="video-play">${playIcon}</div>
           </div>
           <div class="video-info">
-            <div class="video-tag">${v.tag}</div>
+            <div class="video-tag" id="vtag-${i}">${tag}</div>
             <div class="video-title" id="vt-${i}">${title || 'Loading…'}</div>
             <div class="video-meta"><span>YouTube ↗</span></div>
           </div>
@@ -2222,21 +2230,26 @@
 
     (function renderVideos() {
       const grid = document.getElementById('videoGrid');
-      // Render cards immediately with thumbnails, titles load async
-      grid.innerHTML = VIDEOS.map((v, i) => buildVideoCard(v, i, '')).join('');
+      grid.innerHTML = VIDEOS.map((url, i) => buildVideoCard(url, i, '', 'Outdoors')).join('');
       grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-      // Fetch real titles from YouTube oEmbed (no API key needed)
-      VIDEOS.forEach((v, i) => {
-        fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(v.url)}&format=json`)
+      VIDEOS.forEach((url, i) => {
+        fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`)
           .then(r => r.json())
           .then(data => {
-            const el = document.getElementById('vt-' + i);
-            if (el && data.title) el.textContent = data.title;
+            if (!data.title) return;
+            const tag = detectTag(data.title);
+            const titleEl = document.getElementById('vt-' + i);
+            const tagEl   = document.getElementById('vtag-' + i);
+            if (titleEl) titleEl.textContent = data.title;
+            if (tagEl) {
+              tagEl.textContent = tag;
+              tagEl.closest('.video-card').querySelector('.video-thumb').style.background = TAG_COLORS[tag] || '#0a2a14';
+            }
           })
           .catch(() => {
             const el = document.getElementById('vt-' + i);
-            if (el) el.textContent = v.url; // fallback: show URL
+            if (el) el.textContent = 'Watch on YouTube';
           });
       });
     })();
