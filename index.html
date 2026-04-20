@@ -2184,44 +2184,61 @@
     }
 
     /* ── Videos ─────────────────────────────────────────────────── */
-    // ↓ Replace each url with a real YouTube link from Hannah's channel
+    // ↓ Only set the url and tag — titles are fetched automatically from YouTube
     const VIDEOS = [
-      { url: 'https://www.youtube.com/watch?v=uMQnCnQdeRI', tag: 'Noodling', title: 'BIGGEST Flathead I\'ve EVER Caught!! (100+ lbs)', meta: '1.2M views' },
-      { url: 'https://www.youtube.com/watch?v=a0Vmwk0cOH8', tag: 'Hunting', title: 'Opening Day Bow Hunt — Alabama Whitetail', meta: '847K views' },
-      { url: 'https://www.youtube.com/watch?v=hEXedbRIaUI', tag: 'Fishing', title: 'Jug Fishing All Night Long — Massive Catch!', meta: '653K views' },
-      { url: 'https://www.youtube.com/watch?v=XF0UvUydOaM', tag: 'Noodling', title: 'Teaching My Little Sister to Noodle for the First Time', meta: '2.1M views' },
-      { url: 'https://www.youtube.com/watch?v=pqoM7xWhvUM', tag: 'Hunting', title: 'Turkey Season is HERE — Let\'s Get One!', meta: '589K views' },
-      { url: 'https://www.youtube.com/watch?v=NCLKlHgy708', tag: 'Fishing', title: 'Limb Line Fishing the River Bottoms of Alabama', meta: '421K views' },
+      { url: 'https://www.youtube.com/watch?v=uMQnCnQdeRI', tag: 'Noodling' },
+      { url: 'https://www.youtube.com/watch?v=a0Vmwk0cOH8', tag: 'Hunting'  },
+      { url: 'https://www.youtube.com/watch?v=hEXedbRIaUI', tag: 'Fishing'  },
+      { url: 'https://www.youtube.com/watch?v=XF0UvUydOaM', tag: 'Noodling' },
+      { url: 'https://www.youtube.com/watch?v=pqoM7xWhvUM', tag: 'Hunting'  },
+      { url: 'https://www.youtube.com/watch?v=NCLKlHgy708', tag: 'Fishing'  },
     ];
 
     const TAG_COLORS = { Noodling: '#0a2a14', Hunting: '#1a1208', Fishing: '#081830' };
+    const playIcon = `<svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M5 3l10 5-10 5V3z"/></svg>`;
 
     function getYouTubeId(url) {
       const m = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?]+)/);
       return m ? m[1] : null;
     }
 
+    function buildVideoCard(v, i, title) {
+      const id    = getYouTubeId(v.url);
+      const thumb = id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
+      const bg    = TAG_COLORS[v.tag] || '#0a2a14';
+      return `
+        <a href="${v.url}" target="_blank" rel="noopener" class="video-card reveal" style="transition-delay:${i*70}ms;text-decoration:none;color:inherit">
+          <div class="video-thumb" style="background:${bg};position:relative">
+            ${thumb ? `<img src="${thumb}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>` : ''}
+            <div class="video-play">${playIcon}</div>
+          </div>
+          <div class="video-info">
+            <div class="video-tag">${v.tag}</div>
+            <div class="video-title" id="vt-${i}">${title || 'Loading…'}</div>
+            <div class="video-meta"><span>YouTube ↗</span></div>
+          </div>
+        </a>`;
+    }
+
     (function renderVideos() {
       const grid = document.getElementById('videoGrid');
-      const playIcon = `<svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M5 3l10 5-10 5V3z"/></svg>`;
-      grid.innerHTML = VIDEOS.map((v, i) => {
-        const id = getYouTubeId(v.url);
-        const thumb = id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
-        const bg = TAG_COLORS[v.tag] || '#0a2a14';
-        return `
-          <a href="${v.url}" target="_blank" rel="noopener" class="video-card reveal" style="transition-delay:${i * 70}ms;text-decoration:none;color:inherit">
-            <div class="video-thumb" style="background:${bg};position:relative">
-              ${thumb ? `<img src="${thumb}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>` : ''}
-              <div class="video-play">${playIcon}</div>
-            </div>
-            <div class="video-info">
-              <div class="video-tag">${v.tag}</div>
-              <div class="video-title">${v.title}</div>
-              <div class="video-meta"><span>${v.meta}</span><span>YouTube ↗</span></div>
-            </div>
-          </a>`;
-      }).join('');
+      // Render cards immediately with thumbnails, titles load async
+      grid.innerHTML = VIDEOS.map((v, i) => buildVideoCard(v, i, '')).join('');
       grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      // Fetch real titles from YouTube oEmbed (no API key needed)
+      VIDEOS.forEach((v, i) => {
+        fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(v.url)}&format=json`)
+          .then(r => r.json())
+          .then(data => {
+            const el = document.getElementById('vt-' + i);
+            if (el && data.title) el.textContent = data.title;
+          })
+          .catch(() => {
+            const el = document.getElementById('vt-' + i);
+            if (el) el.textContent = v.url; // fallback: show URL
+          });
+      });
     })();
 
     /* ── Newsletter ────────────────────────────────────────────── */
