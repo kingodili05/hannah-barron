@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Media — Hannah Barron Outdoors</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .media-hero {
+      padding: 140px 0 80px;
+      background:
+        radial-gradient(ellipse 70% 60% at 30% 40%, rgba(42,82,20,.4) 0%, transparent 60%),
+        linear-gradient(180deg, #040a03 0%, #0e2008 60%, #040a03 100%);
+      text-align: center;
+    }
+    .media-hero h1 {
+      font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700; text-transform: uppercase; letter-spacing: -1px;
+      color: var(--white); margin-bottom: 12px;
+      opacity: 0; animation: fadeUp 700ms var(--ease-out) 200ms forwards;
+    }
+    .media-hero p {
+      font-size: 1rem; color: rgba(255,255,255,.55);
+      max-width: 480px; margin: 0 auto;
+      opacity: 0; animation: fadeUp 600ms var(--ease-out) 350ms forwards;
+    }
+
+    /* ── Platform Cards ─────────────────────────────────────── */
+    .platforms-section { padding: 80px 0; background: var(--cream); }
+    .platforms-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    }
+    @media (max-width: 900px) { .platforms-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .platforms-grid { grid-template-columns: 1fr; } }
+    .platform-card {
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: center;
+      cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: transform 250ms var(--ease-out), box-shadow 250ms var(--ease-out);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .platform-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-xl); }
+    }
+    .platform-card:active { transform: scale(0.97); }
+    .platform-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.08) 0%, transparent 50%);
+    }
+    .platform-icon { font-size: 2.8rem; margin-bottom: 14px; position: relative; z-index: 1; }
+    .platform-name {
+      font-family: var(--font-display); font-size: 1rem;
+      font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--white); margin-bottom: 8px; position: relative; z-index: 1;
+    }
+    .platform-count {
+      font-family: var(--font-display); font-size: 2rem;
+      font-weight: 700; color: var(--white); line-height: 1;
+      position: relative; z-index: 1;
+    }
+    .platform-label { font-size: .72rem; color: rgba(255,255,255,.65); margin-top: 4px; position: relative; z-index: 1; }
+    .platform-btn {
+      display: inline-block; margin-top: 20px;
+      padding: 8px 20px; border-radius: 100px;
+      background: rgba(255,255,255,.15); color: white;
+      font-family: var(--font-display); font-size: .72rem;
+      letter-spacing: 2px; text-transform: uppercase;
+      transition: background 150ms var(--ease-out);
+      position: relative; z-index: 1;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .platform-btn:hover { background: rgba(255,255,255,.25); }
+    }
+    .pc-youtube  { background: linear-gradient(135deg, #8b0000, #cc0000); }
+    .pc-insta    { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+    .pc-tiktok   { background: linear-gradient(135deg, #010101, #1a1a2e); }
+    .pc-facebook { background: linear-gradient(135deg, #1877f2, #0d5bc4); }
+
+    /* ── Video Gallery ──────────────────────────────────────── */
+    .videos-section { padding: 80px 0; background: var(--green-950); }
+    .video-filters {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px;
+    }
+    .video-filter-btn {
+      padding: 8px 18px;
+      background: transparent; color: rgba(255,255,255,.5);
+      border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 100px;
+      font-family: var(--font-display); font-size: .72rem;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer;
+      transition: all 150ms var(--ease-out);
+    }
+    .video-filter-btn:active { transform: scale(0.97); }
+    .video-filter-btn.active {
+      background: var(--orange-500); border-color: var(--orange-500); color: white;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .video-filter-btn:not(.active):hover { border-color: rgba(255,255,255,.3); color: rgba(255,255,255,.8); }
+    }
+    .videos-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    @media (max-width: 900px) { .videos-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .videos-grid { grid-template-columns: 1fr; } }
+
+    /* Featured (spans 2 cols) */
+    .video-card-featured {
+      grid-column: span 2;
+    }
+    @media (max-width: 900px) { .video-card-featured { grid-column: span 1; } }
+
+    .video-card {
+      border-radius: var(--radius-md);
+      background: var(--green-900);
+      border: 1px solid rgba(255,255,255,.06);
+      overflow: hidden; cursor: pointer;
+      transition: transform 250ms var(--ease-out), box-shadow 250ms var(--ease-out), border-color 200ms var(--ease-out);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .video-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-xl); border-color: var(--orange-500); }
+    }
+    .video-card:active { transform: scale(0.98); }
+    .video-thumb {
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; font-size: 3rem;
+    }
+    .video-card-featured .video-thumb { height: 320px; font-size: 5rem; }
+    .video-thumb-regular { height: 180px; }
+
+    .video-play-btn {
+      position: absolute;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(232,100,10,.9);
+      display: grid; place-items: center;
+      transition: transform 200ms var(--ease-out), background 200ms var(--ease-out);
+    }
+    .video-card-featured .video-play-btn { width: 72px; height: 72px; }
+    @media (hover: hover) and (pointer: fine) {
+      .video-card:hover .video-play-btn { transform: scale(1.1); background: var(--orange-500); }
+    }
+    .video-dur {
+      position: absolute; bottom: 10px; right: 10px;
+      background: rgba(0,0,0,.75); color: white;
+      font-size: .7rem; font-weight: 600; padding: 3px 8px; border-radius: 4px;
+    }
+    .video-views {
+      position: absolute; bottom: 10px; left: 10px;
+      background: rgba(0,0,0,.6); color: rgba(255,255,255,.8);
+      font-size: .68rem; padding: 2px 8px; border-radius: 4px;
+    }
+    .video-meta-info { padding: 16px; }
+    .video-cat {
+      font-family: var(--font-display); font-size: .62rem;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--orange-400); margin-bottom: 6px;
+    }
+    .video-title {
+      font-weight: 700; color: var(--white); line-height: 1.4; margin-bottom: 8px;
+    }
+    .video-card-featured .video-title { font-size: 1.1rem; }
+    .video-stats { font-size: .75rem; color: rgba(255,255,255,.35); display: flex; gap: 12px; }
+
+    /* ── Instagram Grid ─────────────────────────────────────── */
+    .insta-section { padding: 80px 0; background: var(--cream); }
+    .insta-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+    }
+    @media (max-width: 768px) { .insta-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 480px) { .insta-grid { grid-template-columns: repeat(2, 1fr); } }
+    .insta-post {
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; cursor: pointer; position: relative; overflow: hidden;
+      border-radius: 4px;
+    }
+    .insta-post-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.45);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity 200ms var(--ease-out);
+    }
+    .insta-post-overlay-content { color: white; text-align: center; font-size: .85rem; font-weight: 700; }
+    @media (hover: hover) and (pointer: fine) {
+      .insta-post:hover .insta-post-overlay { opacity: 1; }
+    }
+    .insta-post:active .insta-post-overlay { opacity: 1; }
+    .insta-cta { text-align: center; margin-top: 40px; }
+
+    /* Thumb colors */
+    .it1 { background: linear-gradient(135deg,#0a2a14,#1a5020); }
+    .it2 { background: linear-gradient(135deg,#1a1208,#3a280a); }
+    .it3 { background: linear-gradient(135deg,#081830,#0a2848); }
+    .it4 { background: linear-gradient(135deg,#200a14,#3a1020); }
+    .it5 { background: linear-gradient(135deg,#0a2010,#264a14); }
+    .it6 { background: linear-gradient(135deg,#100820,#1a1040); }
+    .it7 { background: linear-gradient(135deg,#201008,#402010); }
+    .it8 { background: linear-gradient(135deg,#082010,#104020); }
+    .it9 { background: linear-gradient(135deg,#100a20,#201840); }
+    .it10{ background: linear-gradient(135deg,#201a08,#403510); }
+    .it11{ background: linear-gradient(135deg,#0a0820,#100a38); }
+    .it12{ background: linear-gradient(135deg,#1a0808,#360f0f); }
+  </style>
+</head>
+<body>
+
+<nav id="nav" class="solid">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-icon">🎣</div>Hannah Barron</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="media.html" class="active">Media</a></li>
+        <li><a href="store.html">Store</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-social">
+          <a href="#" aria-label="YouTube">▶</a>
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="TikTok">🎵</a>
+        </div>
+        <a href="store.html" class="btn btn-primary btn-sm">Shop Now</a>
+        <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Open menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="nav-mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="about.html" onclick="closeMobileMenu()">About</a>
+  <a href="media.html" onclick="closeMobileMenu()">Media</a>
+  <a href="store.html" onclick="closeMobileMenu()">Store</a>
+  <a href="contact.html" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- Hero -->
+<section class="media-hero">
+  <div class="container">
+    <div class="section-tag" style="justify-content:center;margin-bottom:16px">Content & Videos</div>
+    <h1>Media</h1>
+    <p>Watch, follow, and share the adventures. New content dropping every week across all platforms.</p>
+  </div>
+</section>
+
+<!-- Platforms -->
+<section class="platforms-section">
+  <div class="container">
+    <div class="section-header centered reveal" style="margin-bottom:40px">
+      <div class="section-tag">Find Me On</div>
+      <h2 class="section-title">Follow Along</h2>
+    </div>
+    <div class="platforms-grid">
+      <a href="#" class="platform-card pc-youtube reveal" style="transition-delay:0ms">
+        <div class="platform-icon">▶</div>
+        <div class="platform-name">YouTube</div>
+        <div class="platform-count">975K</div>
+        <div class="platform-label">Subscribers</div>
+        <div class="platform-btn">Subscribe</div>
+      </a>
+      <a href="#" class="platform-card pc-insta reveal" style="transition-delay:80ms">
+        <div class="platform-icon">📷</div>
+        <div class="platform-name">Instagram</div>
+        <div class="platform-count">1.7M</div>
+        <div class="platform-label">Followers</div>
+        <div class="platform-btn">Follow</div>
+      </a>
+      <a href="#" class="platform-card pc-tiktok reveal" style="transition-delay:160ms">
+        <div class="platform-icon">🎵</div>
+        <div class="platform-name">TikTok</div>
+        <div class="platform-count">2.3M</div>
+        <div class="platform-label">Followers</div>
+        <div class="platform-btn">Follow</div>
+      </a>
+      <a href="#" class="platform-card pc-facebook reveal" style="transition-delay:240ms">
+        <div class="platform-icon">👍</div>
+        <div class="platform-name">Facebook</div>
+        <div class="platform-count">500K</div>
+        <div class="platform-label">Followers</div>
+        <div class="platform-btn">Like Page</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Videos -->
+<section class="videos-section">
+  <div class="container">
+    <div class="section-header reveal" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:36px">
+      <div>
+        <div class="section-tag">YouTube Channel</div>
+        <h2 class="section-title light" style="margin-bottom:0">Latest Videos</h2>
+      </div>
+      <a href="#" class="btn btn-outline">Subscribe on YouTube</a>
+    </div>
+    <div class="video-filters">
+      <button class="video-filter-btn active">All</button>
+      <button class="video-filter-btn">Noodling</button>
+      <button class="video-filter-btn">Hunting</button>
+      <button class="video-filter-btn">Fishing</button>
+      <button class="video-filter-btn">Vlogs</button>
+    </div>
+    <div class="videos-grid">
+      <div class="video-card video-card-featured reveal" style="transition-delay:0ms">
+        <div class="video-thumb" style="height:320px;background:linear-gradient(135deg,#0a2a14,#1a5020);font-size:5rem">
+          🐟
+          <div class="video-play-btn"><svg width="20" height="20" viewBox="0 0 20 20" fill="white"><path d="M6 4l12 6-12 6V4z"/></svg></div>
+          <div class="video-dur">12:34</div>
+          <div class="video-views">👁 1.2M</div>
+        </div>
+        <div class="video-meta-info">
+          <div class="video-cat">Noodling · Featured</div>
+          <div class="video-title">BIGGEST Flathead I've EVER Caught!! Over 100 lbs Bare-Handed</div>
+          <div class="video-stats"><span>1.2M views</span><span>•</span><span>3 weeks ago</span></div>
+        </div>
+      </div>
+
+      <div class="video-card reveal" style="transition-delay:80ms">
+        <div class="video-thumb video-thumb-regular" style="background:linear-gradient(135deg,#1a1208,#3a280a)">
+          🦌
+          <div class="video-play-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M5 3l10 5-10 5V3z"/></svg></div>
+          <div class="video-dur">18:22</div>
+        </div>
+        <div class="video-meta-info">
+          <div class="video-cat">Hunting</div>
+          <div class="video-title">Opening Day Bow Hunt — Alabama Whitetail</div>
+          <div class="video-stats"><span>847K views</span><span>1 month ago</span></div>
+        </div>
+      </div>
+
+      <div class="video-card reveal" style="transition-delay:160ms">
+        <div class="video-thumb video-thumb-regular" style="background:linear-gradient(135deg,#081830,#0a2848)">
+          🎣
+          <div class="video-play-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M5 3l10 5-10 5V3z"/></svg></div>
+          <div class="video-dur">22:10</div>
+        </div>
+        <div class="video-meta-info">
+          <div class="video-cat">Fishing</div>
+          <div class="video-title">All-Night Jug Fishing — Massive Catch!</div>
+          <div class="video-stats"><span>653K views</span><span>1 month ago</span></div>
+        </div>
+      </div>
+
+      <div class="video-card reveal" style="transition-delay:240ms">
+        <div class="video-thumb video-thumb-regular" style="background:linear-gradient(135deg,#200a14,#3a1020)">
+          🤚
+          <div class="video-play-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M5 3l10 5-10 5V3z"/></svg></div>
+          <div class="video-dur">15:48</div>
+          <div class="video-views">👁 2.1M</div>
+        </div>
+        <div class="video-meta-info">
+          <div class="video-cat">Noodling · Viral</div>
+          <div class="video-title">Teaching My Little Sister to Noodle</div>
+          <div class="video-stats"><span>2.1M views</span><span>2 months ago</span></div>
+        </div>
+      </div>
+
+      <div class="video-card reveal" style="transition-delay:320ms">
+        <div class="video-thumb video-thumb-regular" style="background:linear-gradient(135deg,#0a2010,#264a14)">
+          🏹
+          <div class="video-play-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M5 3l10 5-10 5V3z"/></svg></div>
+          <div class="video-dur">9:55</div>
+        </div>
+        <div class="video-meta-info">
+          <div class="video-cat">Hunting</div>
+          <div class="video-title">Turkey Season is HERE!</div>
+          <div class="video-stats"><span>589K views</span><span>2 months ago</span></div>
+        </div>
+      </div>
+
+      <div class="video-card reveal" style="transition-delay:400ms">
+        <div class="video-thumb video-thumb-regular" style="background:linear-gradient(135deg,#100820,#1a1040)">
+          🌊
+          <div class="video-play-btn"><svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M5 3l10 5-10 5V3z"/></svg></div>
+          <div class="video-dur">26:14</div>
+        </div>
+        <div class="video-meta-info">
+          <div class="video-cat">Fishing</div>
+          <div class="video-title">Limb Line Fishing the Alabama River Bottoms</div>
+          <div class="video-stats"><span>421K views</span><span>3 months ago</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Instagram Grid -->
+<section class="insta-section">
+  <div class="container">
+    <div class="section-header centered reveal">
+      <div class="section-tag">@hannahbarron96</div>
+      <h2 class="section-title">Instagram</h2>
+      <p class="section-desc">1.7M followers and counting. Follow for daily outdoor content.</p>
+    </div>
+    <div class="insta-grid">
+      <div class="insta-post it1 reveal" style="transition-delay:0ms">🐟<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 48K</div></div></div>
+      <div class="insta-post it2 reveal" style="transition-delay:40ms">🦌<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 62K</div></div></div>
+      <div class="insta-post it3 reveal" style="transition-delay:80ms">🎣<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 35K</div></div></div>
+      <div class="insta-post it4 reveal" style="transition-delay:120ms">🤚<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 91K</div></div></div>
+      <div class="insta-post it5 reveal" style="transition-delay:160ms">🌿<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 29K</div></div></div>
+      <div class="insta-post it6 reveal" style="transition-delay:200ms">🏹<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 54K</div></div></div>
+      <div class="insta-post it7 reveal" style="transition-delay:240ms">🐊<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 77K</div></div></div>
+      <div class="insta-post it8 reveal" style="transition-delay:280ms">🌅<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 43K</div></div></div>
+      <div class="insta-post it9 reveal" style="transition-delay:320ms">🎣<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 38K</div></div></div>
+      <div class="insta-post it10 reveal" style="transition-delay:360ms">🐟<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 66K</div></div></div>
+      <div class="insta-post it11 reveal" style="transition-delay:400ms">🦆<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 31K</div></div></div>
+      <div class="insta-post it12 reveal" style="transition-delay:440ms">🌲<div class="insta-post-overlay"><div class="insta-post-overlay-content">❤️ 25K</div></div></div>
+    </div>
+    <div class="insta-cta reveal">
+      <a href="#" class="btn btn-primary" style="margin-top:40px;display:inline-flex">Follow on Instagram 📷</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><div class="nav-logo-icon">🎣</div>Hannah Barron</a>
+        <p>Alabama-born outdoor enthusiast sharing the wild life across YouTube, Instagram, and TikTok.</p>
+        <div class="footer-socials">
+          <a href="#">▶</a><a href="#">📷</a><a href="#">🎵</a><a href="#">👍</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Explore</div>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li><li><a href="media.html">Media</a></li>
+          <li><a href="store.html">Store</a></li><li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Platforms</div>
+        <ul class="footer-links">
+          <li><a href="#">YouTube</a></li><li><a href="#">Instagram</a></li>
+          <li><a href="#">TikTok</a></li><li><a href="#">Facebook</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <ul class="footer-links">
+          <li><a href="#">Brand Partnerships</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Hannah Barron Outdoors. All rights reserved.</div>
+      <div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  nav.classList.add('solid');
+  const mobileMenu = document.getElementById('mobileMenu');
+  document.getElementById('mobileMenuBtn').addEventListener('click', () => { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; });
+  function closeMobileMenu() { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; }
+  document.getElementById('mobileClose').addEventListener('click', closeMobileMenu);
+
+  /* Video filter buttons */
+  document.querySelectorAll('.video-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.video-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

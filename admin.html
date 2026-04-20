@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — Hannah Barron</title>
+  <script src="data.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --green-950: #070f05;
+      --green-900: #0e1f0a;
+      --green-800: #1a3810;
+      --green-700: #275219;
+      --green-600: #346b22;
+      --orange-600: #c4520a;
+      --orange-500: #e8640a;
+      --orange-100: #fde4c8;
+      --cream: #faf6ef;
+      --cream-mid: #f0e8d8;
+      --white: #ffffff;
+      --gray-900: #111810;
+      --gray-700: #2d3b28;
+      --gray-500: #56694e;
+      --gray-300: #a8b8a0;
+      --gray-100: #e8f0e0;
+      --red-500: #ef4444;
+      --red-50: #fef2f2;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--gray-900); }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Login Screen ───────────────────────────────────────── */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 40%, rgba(42,82,20,.4) 0%, transparent 60%),
+        var(--green-950);
+    }
+    .login-box {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 100%; max-width: 400px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.4);
+      text-align: center;
+    }
+    .login-logo {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.3rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--green-900);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-bottom: 8px;
+    }
+    .login-logo-icon {
+      width: 36px; height: 36px; background: var(--orange-500);
+      border-radius: 8px; display: grid; place-items: center; font-size: 1.1rem;
+    }
+    .login-sub {
+      font-size: .85rem; color: var(--gray-500); margin-bottom: 32px;
+    }
+    .login-input {
+      width: 100%; padding: 13px 16px; margin-bottom: 12px;
+      background: var(--cream); border: 1.5px solid var(--cream-mid);
+      border-radius: 10px; font-size: .95rem; font-family: inherit;
+      outline: none;
+      transition: border-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out);
+    }
+    .login-input:focus {
+      border-color: var(--green-600);
+      box-shadow: 0 0 0 3px rgba(52,107,34,.1);
+    }
+    .login-btn {
+      width: 100%; padding: 14px;
+      background: var(--orange-500); color: white;
+      border: none; border-radius: 10px; cursor: pointer;
+      font-family: 'Oswald', sans-serif; font-size: 1rem;
+      font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      transition: background 150ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    .login-btn:active { transform: scale(0.97); }
+    .login-btn:hover { background: var(--orange-600); }
+    .login-error {
+      color: var(--red-500); font-size: .8rem; margin-top: 10px;
+      display: none;
+    }
+
+    /* ── Admin Layout ───────────────────────────────────────── */
+    #adminApp { display: none; min-height: 100vh; }
+
+    .admin-nav {
+      background: var(--green-950);
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; position: sticky; top: 0; z-index: 100;
+    }
+    .admin-nav-logo {
+      font-family: 'Oswald', sans-serif; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--white);
+      display: flex; align-items: center; gap: 10px; font-size: 1.1rem;
+    }
+    .admin-nav-logo-icon {
+      width: 32px; height: 32px; background: var(--orange-500);
+      border-radius: 6px; display: grid; place-items: center;
+    }
+    .admin-nav-badge {
+      background: var(--orange-500); color: white;
+      font-size: .65rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; padding: 3px 8px; border-radius: 4px;
+    }
+    .admin-nav-right { display: flex; align-items: center; gap: 12px; }
+    .view-site-btn {
+      padding: 7px 16px; border-radius: 8px;
+      background: rgba(255,255,255,.08); color: rgba(255,255,255,.7);
+      font-size: .8rem; font-weight: 600;
+      transition: background 150ms var(--ease-out), color 150ms var(--ease-out);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+    .view-site-btn:hover { background: rgba(255,255,255,.14); color: white; }
+    .logout-btn {
+      padding: 7px 14px; background: none;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 8px; color: rgba(255,255,255,.5);
+      font-size: .8rem; cursor: pointer;
+      transition: all 150ms var(--ease-out);
+    }
+    .logout-btn:hover { border-color: rgba(255,255,255,.3); color: white; }
+
+    /* ── Tabs ───────────────────────────────────────────────── */
+    .admin-tabs {
+      background: var(--white);
+      border-bottom: 1px solid var(--cream-mid);
+      display: flex; gap: 0;
+      padding: 0 32px;
+      overflow-x: auto;
+    }
+    .admin-tab {
+      padding: 16px 24px;
+      font-weight: 600; font-size: .9rem; color: var(--gray-500);
+      border-bottom: 2px solid transparent;
+      cursor: pointer; white-space: nowrap;
+      transition: color 150ms var(--ease-out), border-color 150ms var(--ease-out);
+      background: none; border-top: none; border-left: none; border-right: none;
+      font-family: inherit;
+    }
+    .admin-tab.active { color: var(--orange-500); border-bottom-color: var(--orange-500); }
+    .admin-tab:hover:not(.active) { color: var(--gray-900); }
+
+    /* ── Content ────────────────────────────────────────────── */
+    .admin-content { max-width: 1000px; margin: 0 auto; padding: 40px 32px; }
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+
+    /* ── Cards ──────────────────────────────────────────────── */
+    .admin-card {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--cream-mid);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .admin-card-title {
+      font-family: 'Oswald', sans-serif; font-size: 1.1rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--green-900); margin-bottom: 6px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .admin-card-desc { font-size: .85rem; color: var(--gray-500); margin-bottom: 28px; }
+
+    /* ── Form Controls ──────────────────────────────────────── */
+    .form-group { margin-bottom: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    .form-label {
+      display: block; margin-bottom: 7px;
+      font-size: .8rem; font-weight: 600; color: var(--gray-700);
+    }
+    .form-label span { font-weight: 400; color: var(--gray-300); }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 11px 14px;
+      background: var(--cream); border: 1.5px solid var(--cream-mid);
+      border-radius: 8px; font-size: .9rem; font-family: inherit;
+      color: var(--gray-900); outline: none;
+      transition: border-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--green-600);
+      box-shadow: 0 0 0 3px rgba(52,107,34,.1);
+    }
+    .form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+    /* ── Toggle ─────────────────────────────────────────────── */
+    .toggle-wrap {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px;
+    }
+    .toggle {
+      width: 48px; height: 26px; border-radius: 13px;
+      background: var(--gray-300); border: none; cursor: pointer;
+      position: relative;
+      transition: background 200ms var(--ease-out);
+    }
+    .toggle.on { background: var(--green-600); }
+    .toggle::after {
+      content: '';
+      position: absolute; top: 3px; left: 3px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: white; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+      transition: transform 200ms var(--ease-out);
+    }
+    .toggle.on::after { transform: translateX(22px); }
+    .toggle-label { font-weight: 600; font-size: .9rem; }
+    .toggle-sub { font-size: .8rem; color: var(--gray-400); }
+
+    /* ── Image Upload ───────────────────────────────────────── */
+    .image-upload-wrap {
+      border: 2px dashed var(--cream-mid);
+      border-radius: 12px; padding: 24px;
+      text-align: center; cursor: pointer;
+      transition: border-color 200ms var(--ease-out), background 200ms var(--ease-out);
+      position: relative;
+    }
+    .image-upload-wrap:hover { border-color: var(--green-600); background: var(--cream); }
+    .image-upload-wrap.has-image {
+      border-style: solid; border-color: var(--green-600); padding: 12px;
+    }
+    .image-upload-wrap input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%;
+    }
+    .image-preview {
+      max-height: 200px; border-radius: 8px;
+      object-fit: contain; max-width: 100%; margin: 0 auto;
+    }
+    .upload-placeholder { color: var(--gray-400); }
+    .upload-icon { font-size: 2.5rem; margin-bottom: 8px; }
+    .upload-text { font-size: .85rem; }
+    .upload-hint { font-size: .75rem; color: var(--gray-300); margin-top: 4px; }
+    .clear-image-btn {
+      display: block; margin: 8px auto 0; padding: 6px 14px;
+      background: var(--red-50); color: var(--red-500);
+      border: 1px solid #fecaca; border-radius: 6px;
+      font-size: .75rem; font-weight: 600; cursor: pointer;
+      transition: background 150ms var(--ease-out);
+    }
+    .clear-image-btn:hover { background: #fee2e2; }
+
+    /* ── Buttons ────────────────────────────────────────────── */
+    .btn-save {
+      padding: 12px 28px;
+      background: var(--orange-500); color: white;
+      border: none; border-radius: 10px; cursor: pointer;
+      font-family: 'Oswald', sans-serif; font-size: .95rem;
+      font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+      transition: background 150ms var(--ease-out), transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+      box-shadow: 0 4px 14px rgba(232,100,10,.3);
+    }
+    .btn-save:active { transform: scale(0.97); }
+    .btn-save:hover { background: var(--orange-600); }
+    .btn-save.saving { opacity: 0.7; pointer-events: none; }
+
+    .btn-add {
+      padding: 9px 20px;
+      background: var(--green-800); color: white;
+      border: none; border-radius: 8px; cursor: pointer;
+      font-size: .85rem; font-weight: 600;
+      transition: background 150ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    .btn-add:hover { background: var(--green-700); }
+    .btn-add:active { transform: scale(0.97); }
+
+    .btn-edit {
+      padding: 6px 14px; background: var(--gray-100);
+      border: 1px solid var(--cream-mid); border-radius: 6px;
+      font-size: .78rem; font-weight: 600; cursor: pointer;
+      transition: background 150ms var(--ease-out);
+    }
+    .btn-edit:hover { background: var(--cream-mid); }
+
+    .btn-delete {
+      padding: 6px 14px; background: var(--red-50);
+      color: var(--red-500); border: 1px solid #fecaca;
+      border-radius: 6px; font-size: .78rem; font-weight: 600; cursor: pointer;
+      transition: background 150ms var(--ease-out);
+    }
+    .btn-delete:hover { background: #fee2e2; }
+
+    /* ── Save Toast ─────────────────────────────────────────── */
+    .save-toast {
+      position: fixed; bottom: 28px; right: 28px; z-index: 999;
+      background: var(--green-800); color: white;
+      border-radius: 12px; padding: 14px 22px;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
+      transform: translateY(80px); opacity: 0;
+      transition: transform 400ms cubic-bezier(0.32, 0.72, 0, 1), opacity 400ms var(--ease-out);
+      font-size: .9rem; font-weight: 600;
+    }
+    .save-toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── Winner preview ─────────────────────────────────────── */
+    .winner-preview {
+      background: linear-gradient(135deg, #1a3810, #2e5a1c);
+      border-radius: 14px; padding: 24px;
+      text-align: center; color: white; margin-bottom: 24px;
+    }
+    .winner-preview-label { font-size: .72rem; letter-spacing: 3px; text-transform: uppercase; opacity: .6; margin-bottom: 8px; }
+    .winner-preview-name { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700; }
+    .winner-preview-truck { font-size: .9rem; opacity: .7; margin-top: 4px; }
+    .winner-preview-empty { opacity: .4; font-style: italic; font-size: .9rem; }
+
+    /* ── News list ──────────────────────────────────────────── */
+    .news-list { display: flex; flex-direction: column; gap: 12px; }
+    .news-item {
+      background: var(--cream);
+      border: 1px solid var(--cream-mid);
+      border-radius: 10px; padding: 16px 20px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .news-item-info { flex: 1; min-width: 0; }
+    .news-item-date {
+      font-size: .72rem; color: var(--gray-300);
+      font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;
+    }
+    .news-item-headline {
+      font-weight: 700; font-size: .9rem; color: var(--gray-900);
+      margin-bottom: 4px; line-height: 1.4;
+    }
+    .news-item-excerpt { font-size: .8rem; color: var(--gray-500); line-height: 1.55; }
+    .news-item-tag {
+      display: inline-block; padding: 2px 8px;
+      background: var(--orange-100); color: var(--orange-600);
+      border-radius: 4px; font-size: .65rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
+    }
+    .news-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .news-empty { text-align: center; padding: 40px; color: var(--gray-300); font-size: .9rem; }
+
+    /* ── News Editor Modal ──────────────────────────────────── */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,.5); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 250ms var(--ease-out);
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--white); border-radius: 20px;
+      padding: 36px; width: 100%; max-width: 600px;
+      max-height: 90vh; overflow-y: auto;
+      transform: scale(0.95) translateY(10px);
+      transition: transform 300ms var(--ease-out);
+      box-shadow: 0 24px 80px rgba(0,0,0,.3);
+    }
+    .modal-backdrop.open .modal { transform: scale(1) translateY(0); }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .modal-title { font-family: 'Oswald', sans-serif; font-size: 1.2rem; font-weight: 700; text-transform: uppercase; }
+    .modal-close {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--cream); border: none; cursor: pointer;
+      display: grid; place-items: center; font-size: .9rem;
+      transition: background 150ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    .modal-close:hover { background: var(--cream-mid); }
+    .modal-close:active { transform: scale(0.9); }
+    .modal-footer {
+      display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px;
+    }
+    .btn-cancel {
+      padding: 10px 22px; background: var(--cream);
+      border: 1px solid var(--cream-mid); border-radius: 8px;
+      font-size: .88rem; font-weight: 600; cursor: pointer;
+      transition: background 150ms var(--ease-out);
+    }
+    .btn-cancel:hover { background: var(--cream-mid); }
+
+    /* ── Entries list ───────────────────────────────────────── */
+    .entry-row {
+      background: var(--cream);
+      border: 1px solid var(--cream-mid);
+      border-radius: 10px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 8px;
+    }
+    .entry-row-info { flex: 1; min-width: 0; }
+    .entry-row-name { font-weight: 700; font-size: .9rem; color: var(--gray-900); }
+    .entry-row-meta { font-size: .78rem; color: var(--gray-500); margin-top: 2px; }
+    .btn-pick-winner {
+      padding: 6px 14px; background: var(--green-800);
+      color: white; border: none; border-radius: 6px;
+      font-size: .78rem; font-weight: 600; cursor: pointer;
+      white-space: nowrap;
+      transition: background 150ms var(--ease-out);
+    }
+    .btn-pick-winner:hover { background: var(--green-700); }
+    .entries-empty { text-align: center; padding: 32px; color: var(--gray-300); font-size: .9rem; }
+
+    /* ── Status indicator ───────────────────────────────────── */
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      display: inline-block; margin-right: 6px;
+    }
+    .status-dot.active { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.2); }
+    .status-dot.inactive { background: var(--gray-300); }
+  </style>
+</head>
+<body>
+
+<!-- ── Login Screen ─────────────────────────────────────────── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon">🎣</div>
+      Hannah Barron
+    </div>
+    <p class="login-sub">Admin Panel — Enter password to continue</p>
+    <input class="login-input" id="pwInput" type="password" placeholder="Password" onkeydown="if(event.key==='Enter') doLogin()"/>
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<!-- ── Admin App ─────────────────────────────────────────────── -->
+<div id="adminApp">
+
+  <!-- Nav -->
+  <nav class="admin-nav">
+    <div class="admin-nav-logo">
+      <div class="admin-nav-logo-icon">🎣</div>
+      Hannah Barron
+      <span class="admin-nav-badge">Admin</span>
+    </div>
+    <div class="admin-nav-right">
+      <a href="index.html" target="_blank" class="view-site-btn">View Website ↗</a>
+      <button class="logout-btn" onclick="doLogout()">Log Out</button>
+    </div>
+  </nav>
+
+  <!-- Tabs -->
+  <div class="admin-tabs">
+    <button class="admin-tab active" onclick="switchTab('giveaway', this)">🏆 Giveaway</button>
+    <button class="admin-tab" onclick="switchTab('news', this)">📰 News</button>
+    <button class="admin-tab" onclick="switchTab('store', this)">🛍️ Store</button>
+    <button class="admin-tab" onclick="switchTab('site', this)">🖼️ Site Photos</button>
+  </div>
+
+  <!-- Content -->
+  <div class="admin-content">
+
+    <!-- ── Giveaway Panel ─────────────────────────────────── -->
+    <div id="panel-giveaway" class="admin-panel active">
+
+      <!-- Toggle -->
+      <div class="admin-card">
+        <div class="admin-card-title">🏆 Giveaway Status</div>
+        <div class="admin-card-desc">Turn the giveaway section on or off on the front page.</div>
+        <div class="toggle-wrap">
+          <button class="toggle on" id="giveawayToggle" onclick="toggleGiveaway()"></button>
+          <div>
+            <div class="toggle-label" id="toggleLabel">Giveaway Active</div>
+            <div class="toggle-sub" id="toggleSub">Giveaway section is visible on the front page</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Winner section -->
+      <div class="admin-card">
+        <div class="admin-card-title">🎉 Current Winner</div>
+        <div class="admin-card-desc">Fill in winner details to display a winner announcement on the front page. Leave Name blank to show "Enter to Win" instead.</div>
+
+        <!-- Live preview -->
+        <div class="winner-preview" id="winnerPreview">
+          <div class="winner-preview-label">Current Display</div>
+          <div id="previewContent"><div class="winner-preview-empty">No winner announced — showing Enter to Win</div></div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="winnerName">Winner Name <span>(leave blank for no winner)</span></label>
+            <input class="form-input" id="winnerName" type="text" placeholder="e.g. Mike Johnson" oninput="updatePreview()"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="winnerLocation">Winner Location <span>(optional)</span></label>
+            <input class="form-input" id="winnerLocation" type="text" placeholder="e.g. Dallas, TX"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="winnerDate">Announcement Date</label>
+            <input class="form-input" id="winnerDate" type="date"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prizeTitle">Prize / Truck Name</label>
+            <input class="form-input" id="prizeTitle" type="text" placeholder="e.g. 2025 Chevy Silverado 1500 Trail Boss" oninput="updatePreview()"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="prizeDesc">Prize Description</label>
+          <input class="form-input" id="prizeDesc" type="text" placeholder="e.g. 4WD, Midnight Edition, fully loaded"/>
+        </div>
+      </div>
+
+      <!-- Truck photo -->
+      <div class="admin-card">
+        <div class="admin-card-title">🚚 Truck Photo</div>
+        <div class="admin-card-desc">Upload a photo of the truck being given away, or the truck with the winner. JPG/PNG, recommended min 800×500px.</div>
+
+        <div class="image-upload-wrap" id="truckUploadWrap">
+          <input type="file" id="truckImageInput" accept="image/*" onchange="handleTruckImage(this)"/>
+          <div id="truckUploadContent">
+            <div class="upload-placeholder">
+              <div class="upload-icon">🚚</div>
+              <div class="upload-text">Click to upload truck photo</div>
+              <div class="upload-hint">JPG, PNG, WEBP up to 5MB</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <label class="form-label" for="truckImageUrl">Or paste an image URL</label>
+          <input class="form-input" id="truckImageUrl" type="url" placeholder="https://example.com/truck.jpg" oninput="handleTruckUrl(this.value)"/>
+        </div>
+      </div>
+
+      <!-- Entry link -->
+      <div class="admin-card">
+        <div class="admin-card-title">🔗 Entry / CTA Settings</div>
+        <div class="admin-card-desc">The button fans click to enter the giveaway.</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="entryCtaText">Button Text</label>
+            <input class="form-input" id="entryCtaText" type="text" placeholder="Enter the Giveaway"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="entryLink">Entry Link / URL</label>
+            <input class="form-input" id="entryLink" type="text" placeholder="https://... or #"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Private winner link -->
+      <div class="admin-card" style="border:2px solid var(--orange-500)">
+        <div class="admin-card-title">🔐 Private Winner Link</div>
+        <div class="admin-card-desc">
+          Generate a secret link to send directly to the winner. <strong>Only the person with this link</strong> will see "You Won" — everyone else keeps seeing the entry form. The winner doesn't need to have entered.
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="privateWinnerName">Winner's Name</label>
+            <input class="form-input" id="privateWinnerName" type="text" placeholder="e.g. Mike Johnson"/>
+          </div>
+          <div class="form-group" style="display:flex;align-items:flex-end">
+            <button class="btn-add" style="width:100%" onclick="generateWinnerLink()">Generate Secret Link</button>
+          </div>
+        </div>
+        <div id="winnerLinkBox" style="display:none;margin-top:4px">
+          <label class="form-label">Secret Link — copy and send to the winner</label>
+          <div style="display:flex;gap:8px">
+            <input class="form-input" id="winnerLinkOutput" type="text" readonly style="font-size:.8rem;color:var(--green-800);font-weight:600"/>
+            <button class="btn-add" onclick="copyWinnerLink()" style="flex-shrink:0" id="copyLinkBtn">Copy</button>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+            <span id="privateLinkStatus" style="font-size:.8rem;color:var(--gray-500)"></span>
+            <button class="btn-delete" onclick="clearPrivateWinner()" style="margin-left:auto">Clear Winner Link</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-save" id="saveGiveawayBtn" onclick="saveGiveaway()">Save Giveaway Changes</button>
+
+      <!-- Entries list -->
+      <div class="admin-card" style="margin-top:24px">
+        <div class="admin-card-title" style="justify-content:space-between;display:flex;align-items:center;flex-wrap:wrap;gap:12px">
+          <span>📋 Giveaway Entries</span>
+          <span id="entriesCount" style="font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;color:var(--gray-500)"></span>
+        </div>
+        <div class="admin-card-desc">Click "Select as Winner" to auto-fill the winner fields above, then save.</div>
+        <div id="entriesList"></div>
+      </div>
+    </div>
+
+    <!-- ── Store Panel ────────────────────────────────────── -->
+    <div id="panel-store" class="admin-panel">
+
+      <div class="admin-card">
+        <div class="admin-card-title" style="justify-content:space-between;display:flex;align-items:center;flex-wrap:wrap;gap:12px">
+          <span>🛍️ Products</span>
+          <button class="btn-add" onclick="openProductModal()">+ Add Product</button>
+        </div>
+        <div class="admin-card-desc">Manage store products. Changes appear live on the store page.</div>
+        <div class="store-product-list" id="storeProductList"></div>
+      </div>
+
+    </div>
+
+    <!-- ── News Panel ─────────────────────────────────────── -->
+    <div id="panel-news" class="admin-panel">
+
+      <div class="admin-card">
+        <div class="admin-card-title" style="justify-content:space-between;display:flex;align-items:center;flex-wrap:wrap;gap:12px">
+          <span>📰 News Articles</span>
+          <button class="btn-add" onclick="openNewsModal()">+ Add Article</button>
+        </div>
+        <div class="admin-card-desc">These articles appear in the News section on the front page. Newest first.</div>
+        <div class="news-list" id="newsList"></div>
+      </div>
+
+    </div>
+
+    <!-- ── Site Photos Panel ─────────────────────────────────── -->
+    <div id="panel-site" class="admin-panel">
+
+      <div class="admin-card">
+        <div class="admin-card-title">📸 Hannah Hero Photo</div>
+        <div class="admin-card-desc">This photo appears on the right side of the homepage hero. Best results with a tall portrait photo (e.g. 600×900px). JPG or PNG.</div>
+
+        <div class="image-upload-wrap" id="heroImgWrap">
+          <input type="file" id="heroImgInput" accept="image/*" onchange="handleHeroImage(this)"/>
+          <div id="heroImgContent">
+            <div class="upload-placeholder">
+              <div class="upload-icon">📸</div>
+              <div class="upload-text">Click to upload Hannah's photo</div>
+              <div class="upload-hint">Portrait photo recommended · JPG, PNG up to 5MB</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <label class="form-label" for="heroImgUrl">Or paste an image URL</label>
+          <input class="form-input" id="heroImgUrl" type="url" placeholder="https://example.com/hannah.jpg" oninput="handleHeroImgUrl(this.value)"/>
+        </div>
+      </div>
+
+      <button class="btn-save" id="saveSiteBtn" onclick="saveSiteSettings()">Save Site Photos</button>
+    </div>
+
+  </div><!-- /admin-content -->
+</div><!-- /adminApp -->
+
+<!-- Save Toast -->
+<div class="save-toast" id="saveToast">
+  <span>✓</span><span id="toastMsg">Changes saved!</span>
+</div>
+
+<!-- Product Modal -->
+<div class="modal-backdrop" id="productModal">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header">
+      <div class="modal-title" id="productModalTitle">Add Product</div>
+      <button class="modal-close" onclick="closeProductModal()">✕</button>
+    </div>
+    <input type="hidden" id="editProductId"/>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="prodName">Product Name *</label>
+        <input class="form-input" id="prodName" type="text" placeholder="e.g. Get Bit! T-Shirt"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="prodCategory">Category *</label>
+        <select class="form-input form-select" id="prodCategory">
+          <option value="tees">Tees</option>
+          <option value="hats">Hats</option>
+          <option value="hoodies">Hoodies</option>
+          <option value="gear">Gear</option>
+          <option value="accessories">Accessories</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="prodPrice">Price *</label>
+        <input class="form-input" id="prodPrice" type="number" step="0.01" min="0" placeholder="29.99"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="prodOrigPrice">Original Price <span>(for Sale badge)</span></label>
+        <input class="form-input" id="prodOrigPrice" type="number" step="0.01" min="0" placeholder="Leave blank if no sale"/>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="prodBadge">Badge</label>
+        <select class="form-input form-select" id="prodBadge">
+          <option value="">None</option>
+          <option value="Best Seller">Best Seller</option>
+          <option value="New">New</option>
+          <option value="Sale">Sale</option>
+          <option value="Featured">Featured</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="prodEmoji">Emoji Icon</label>
+        <input class="form-input" id="prodEmoji" type="text" placeholder="👕" maxlength="4"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="prodDesc">Description *</label>
+      <textarea class="form-textarea" id="prodDesc" placeholder="Short product description..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="prodSizes">Sizes <span>(comma-separated, leave blank for no sizes)</span></label>
+      <input class="form-input" id="prodSizes" type="text" placeholder="S, M, L, XL, 2XL"/>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Product Image</label>
+      <div class="image-upload-wrap" id="prodImgWrap">
+        <input type="file" id="prodImgInput" accept="image/*" onchange="handleProdImage(this, 'prodImg', 'prodImgWrap')"/>
+        <div id="prodImgContent">
+          <div class="upload-placeholder">
+            <div class="upload-icon">🖼️</div>
+            <div class="upload-text">Click to upload main photo</div>
+            <div class="upload-hint">JPG, PNG up to 5MB</div>
+          </div>
+        </div>
+      </div>
+      <input class="form-input" id="prodImgUrl" type="url" placeholder="Or paste image URL" style="margin-top:8px"
+             oninput="handleProdImgUrl(this.value,'prodImg','prodImgWrap','prodImgContent')"/>
+    </div>
+
+    <div class="form-group" id="lifestyleImgsGroup">
+      <label class="form-label">Lifestyle Photos <span>(for featured product — 2 extra images)</span></label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <div class="image-upload-wrap" id="prodImg2Wrap" style="min-height:100px">
+            <input type="file" id="prodImg2Input" accept="image/*" onchange="handleProdImage(this,'prodImg2','prodImg2Wrap')"/>
+            <div id="prodImg2Content"><div class="upload-placeholder"><div class="upload-icon">📸</div><div class="upload-text">Lifestyle 1</div></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="image-upload-wrap" id="prodImg3Wrap" style="min-height:100px">
+            <input type="file" id="prodImg3Input" accept="image/*" onchange="handleProdImage(this,'prodImg3','prodImg3Wrap')"/>
+            <div id="prodImg3Content"><div class="upload-placeholder"><div class="upload-icon">📸</div><div class="upload-text">Lifestyle 2</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toggle-wrap" style="margin-bottom:8px">
+      <button class="toggle on" id="prodActiveToggle" onclick="this.classList.toggle('on')"></button>
+      <div>
+        <div class="toggle-label">Product Active</div>
+        <div class="toggle-sub">Visible on the store page</div>
+      </div>
+    </div>
+    <div class="toggle-wrap">
+      <button class="toggle" id="prodFeaturedToggle" onclick="this.classList.toggle('on');toggleLifestyleSection()"></button>
+      <div>
+        <div class="toggle-label">Featured Product</div>
+        <div class="toggle-sub">Shows as the large hero card at the top</div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeProductModal()">Cancel</button>
+      <button class="btn-save" onclick="saveProduct()">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- News Modal -->
+<div class="modal-backdrop" id="newsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Add Article</div>
+      <button class="modal-close" onclick="closeNewsModal()">✕</button>
+    </div>
+    <input type="hidden" id="editNewsId"/>
+    <div class="form-group">
+      <label class="form-label" for="newsHeadline">Headline *</label>
+      <input class="form-input" id="newsHeadline" type="text" placeholder="Enter news headline..." required/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="newsDate">Date *</label>
+        <input class="form-input" id="newsDate" type="date" required/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="newsTag">Tag</label>
+        <select class="form-input form-select" id="newsTag">
+          <option>News</option>
+          <option>Noodling</option>
+          <option>Hunting</option>
+          <option>Fishing</option>
+          <option>Merch</option>
+          <option>Giveaway</option>
+          <option>Event</option>
+          <option>Partnership</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="newsExcerpt">Excerpt / Summary *</label>
+      <textarea class="form-textarea" id="newsExcerpt" placeholder="Write a short summary of the news..." required></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Article Photo <span>(optional)</span></label>
+      <div class="image-upload-wrap" id="newsImgWrap">
+        <input type="file" id="newsImgInput" accept="image/*" onchange="handleNewsImage(this)"/>
+        <div id="newsImgContent">
+          <div class="upload-placeholder">
+            <div class="upload-icon">📰</div>
+            <div class="upload-text">Click to upload article photo</div>
+            <div class="upload-hint">JPG, PNG up to 5MB</div>
+          </div>
+        </div>
+      </div>
+      <input class="form-input" id="newsImgUrl" type="url" placeholder="Or paste image URL" style="margin-top:8px"
+             oninput="handleNewsImgUrl(this.value)"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeNewsModal()">Cancel</button>
+      <button class="btn-save" onclick="saveNewsItem()">Save Article</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ── Auth ─────────────────────────────────────────────────── */
+  const ADMIN_PASSWORD = 'barron2026'; // Change this!
+
+  function doLogin() {
+    const pw = document.getElementById('pwInput').value;
+    if (pw === ADMIN_PASSWORD) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminApp').style.display = 'block';
+      sessionStorage.setItem('hb_admin', '1');
+      loadAll();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+      document.getElementById('pwInput').value = '';
+      document.getElementById('pwInput').focus();
+    }
+  }
+
+  function doLogout() {
+    sessionStorage.removeItem('hb_admin');
+    location.reload();
+  }
+
+  // Auto-login if session still valid
+  if (sessionStorage.getItem('hb_admin') === '1') {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'block';
+  }
+
+  /* ── Tabs ─────────────────────────────────────────────────── */
+  function switchTab(id, btn) {
+    document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  /* ── Load Everything ──────────────────────────────────────── */
+  function loadAll() {
+    loadGiveaway();
+    renderEntriesList();
+    renderNewsList();
+    renderStoreProductList();
+    loadSiteSettings();
+  }
+
+  /* ── Giveaway ─────────────────────────────────────────────── */
+  let giveawayActive = true;
+
+  function loadGiveaway() {
+    const g = hb_getGiveaway();
+    giveawayActive = g.active !== false;
+    setToggleUI(giveawayActive);
+    document.getElementById('winnerName').value     = g.winnerName || '';
+    document.getElementById('winnerLocation').value = g.winnerLocation || '';
+    document.getElementById('winnerDate').value     = g.winnerDate || '';
+    document.getElementById('prizeTitle').value     = g.prizeTitle || '';
+    document.getElementById('prizeDesc').value      = g.prizeDesc || '';
+    document.getElementById('entryCtaText').value   = g.entryCtaText || 'Enter the Giveaway';
+    document.getElementById('entryLink').value      = g.entryLink || '';
+    document.getElementById('truckImageUrl').value  = (g.truckImage && !g.truckImage.startsWith('data:')) ? g.truckImage : '';
+    if (g.truckImage) showTruckPreview(g.truckImage);
+    updatePreview();
+    // Load private winner state
+    if (g.privateWinnerToken) {
+      document.getElementById('privateWinnerName').value = g.privateWinnerName || '';
+      showWinnerLinkBox(g.privateWinnerToken, g.privateWinnerName);
+    }
+  }
+
+  function toggleGiveaway() {
+    giveawayActive = !giveawayActive;
+    setToggleUI(giveawayActive);
+  }
+
+  function setToggleUI(on) {
+    const toggle = document.getElementById('giveawayToggle');
+    toggle.classList.toggle('on', on);
+    document.getElementById('toggleLabel').textContent = on ? 'Giveaway Active' : 'Giveaway Hidden';
+    document.getElementById('toggleSub').textContent = on
+      ? 'Giveaway section is visible on the front page'
+      : 'Giveaway section is hidden from visitors';
+  }
+
+  function updatePreview() {
+    const name  = document.getElementById('winnerName').value.trim();
+    const truck = document.getElementById('prizeTitle').value.trim();
+    const preview = document.getElementById('previewContent');
+    if (name) {
+      preview.innerHTML = `
+        <div class="winner-preview-name">🏆 ${name}</div>
+        <div class="winner-preview-truck">${truck || 'Prize not set'}</div>`;
+    } else {
+      preview.innerHTML = `<div class="winner-preview-empty">No winner — showing "Enter to Win"</div>`;
+    }
+  }
+
+  function handleTruckImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return; }
+    const reader = new FileReader();
+    reader.onload = e => {
+      showTruckPreview(e.target.result);
+      document.getElementById('truckImageUrl').value = '';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleTruckUrl(url) {
+    if (url) {
+      showTruckPreview(url);
+      // Clear file input
+      document.getElementById('truckImageInput').value = '';
+      const wrap = document.getElementById('truckUploadWrap');
+      // Keep preview but update src
+    }
+  }
+
+  let currentTruckImage = '';
+  function showTruckPreview(src) {
+    currentTruckImage = src;
+    const wrap = document.getElementById('truckUploadWrap');
+    wrap.classList.add('has-image');
+    document.getElementById('truckUploadContent').innerHTML = `
+      <img src="${src}" class="image-preview" alt="Truck preview" onerror="clearTruckImage()"/>
+      <button type="button" class="clear-image-btn" onclick="clearTruckImage()">✕ Remove Photo</button>
+    `;
+  }
+
+  function clearTruckImage() {
+    currentTruckImage = '';
+    const wrap = document.getElementById('truckUploadWrap');
+    wrap.classList.remove('has-image');
+    document.getElementById('truckImageInput').value = '';
+    document.getElementById('truckImageUrl').value = '';
+    document.getElementById('truckUploadContent').innerHTML = `
+      <div class="upload-placeholder">
+        <div class="upload-icon">🚚</div>
+        <div class="upload-text">Click to upload truck photo</div>
+        <div class="upload-hint">JPG, PNG, WEBP up to 5MB</div>
+      </div>`;
+  }
+
+  function saveGiveaway() {
+    const btn = document.getElementById('saveGiveawayBtn');
+    btn.textContent = 'Saving...'; btn.classList.add('saving');
+
+    // Get image: prefer upload (base64), then URL field
+    const urlField = document.getElementById('truckImageUrl').value.trim();
+    const truckImage = currentTruckImage || urlField || '';
+
+    const existing = hb_getGiveaway();
+    const data = {
+      active:               giveawayActive,
+      winnerName:           document.getElementById('winnerName').value.trim(),
+      winnerLocation:       document.getElementById('winnerLocation').value.trim(),
+      winnerDate:           document.getElementById('winnerDate').value,
+      prizeTitle:           document.getElementById('prizeTitle').value.trim(),
+      prizeDesc:            document.getElementById('prizeDesc').value.trim(),
+      entryCtaText:         document.getElementById('entryCtaText').value.trim() || 'Enter the Giveaway',
+      entryLink:            document.getElementById('entryLink').value.trim() || '#',
+      truckImage:           truckImage,
+      privateWinnerToken:   existing.privateWinnerToken || '',
+      privateWinnerName:    existing.privateWinnerName  || ''
+    };
+
+    hb_saveGiveaway(data);
+
+    setTimeout(() => {
+      btn.textContent = 'Save Giveaway Changes'; btn.classList.remove('saving');
+      showToast('✓ Giveaway updated on website!');
+    }, 600);
+  }
+
+  /* ── News ─────────────────────────────────────────────────── */
+  function renderNewsList() {
+    const news = hb_getNews();
+    const list = document.getElementById('newsList');
+    if (!news.length) {
+      list.innerHTML = '<div class="news-empty">No articles yet. Add your first one above.</div>';
+      return;
+    }
+    // Sort newest first
+    const sorted = [...news].sort((a, b) => new Date(b.date) - new Date(a.date));
+    list.innerHTML = sorted.map(item => `
+      <div class="news-item">
+        <div class="news-item-info">
+          <div class="news-item-tag">${item.tag}</div>
+          <div class="news-item-date">${hb_formatDate(item.date)}</div>
+          <div class="news-item-headline">${item.headline}</div>
+          <div class="news-item-excerpt">${item.excerpt}</div>
+        </div>
+        <div class="news-item-actions">
+          <button class="btn-edit" onclick="editNews('${item.id}')">Edit</button>
+          <button class="btn-delete" onclick="deleteNews('${item.id}')">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  let currentNewsImage = '';
+
+  function openNewsModal(id) {
+    currentNewsImage = '';
+    const modal = document.getElementById('newsModal');
+    document.getElementById('editNewsId').value = id || '';
+    document.getElementById('modalTitle').textContent = id ? 'Edit Article' : 'Add Article';
+    clearNewsImgUI();
+    if (id) {
+      const item = hb_getNews().find(n => n.id === id);
+      if (item) {
+        document.getElementById('newsHeadline').value = item.headline;
+        document.getElementById('newsDate').value     = item.date;
+        document.getElementById('newsTag').value      = item.tag;
+        document.getElementById('newsExcerpt').value  = item.excerpt;
+        if (item.image) { currentNewsImage = item.image; showNewsImgPreview(item.image); }
+      }
+    } else {
+      document.getElementById('newsHeadline').value = '';
+      document.getElementById('newsDate').value = new Date().toISOString().split('T')[0];
+      document.getElementById('newsTag').value = 'News';
+      document.getElementById('newsExcerpt').value = '';
+    }
+    modal.classList.add('open');
+  }
+
+  function editNews(id) { openNewsModal(id); }
+
+  function closeNewsModal() {
+    document.getElementById('newsModal').classList.remove('open');
+  }
+
+  function saveNewsItem() {
+    const headline = document.getElementById('newsHeadline').value.trim();
+    const excerpt  = document.getElementById('newsExcerpt').value.trim();
+    const date     = document.getElementById('newsDate').value;
+    if (!headline || !excerpt || !date) { alert('Please fill in all required fields.'); return; }
+
+    const id   = document.getElementById('editNewsId').value;
+    const news = hb_getNews();
+    const newsImgUrl = document.getElementById('newsImgUrl').value.trim();
+    const item = {
+      id:       id || 'news-' + Date.now(),
+      headline, excerpt, date,
+      tag:      document.getElementById('newsTag').value,
+      image:    currentNewsImage || newsImgUrl || ''
+    };
+
+    if (id) {
+      const idx = news.findIndex(n => n.id === id);
+      if (idx > -1) news[idx] = item; else news.unshift(item);
+    } else {
+      news.unshift(item);
+    }
+
+    hb_saveNews(news);
+    closeNewsModal();
+    renderNewsList();
+    showToast('✓ Article saved!');
+  }
+
+  function deleteNews(id) {
+    if (!confirm('Delete this article? This cannot be undone.')) return;
+    const news = hb_getNews().filter(n => n.id !== id);
+    hb_saveNews(news);
+    renderNewsList();
+    showToast('Article deleted.');
+  }
+
+  /* ── Toast ────────────────────────────────────────────────── */
+  let toastTimer;
+  function showToast(msg) {
+    document.getElementById('toastMsg').textContent = msg;
+    const toast = document.getElementById('saveToast');
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  /* ── Close modal on backdrop click ───────────────────────── */
+  document.getElementById('newsModal').addEventListener('click', function(e) {
+    if (e.target === this) closeNewsModal();
+  });
+
+  // Auto-load if already logged in
+  if (document.getElementById('adminApp').style.display === 'block') loadAll();
+
+  /* ── Private Winner Link ─────────────────────────────────── */
+  function generateWinnerLink() {
+    const name = document.getElementById('privateWinnerName').value.trim();
+    if (!name) { alert('Please enter the winner\'s name first.'); return; }
+
+    const token = 'hbw_' + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+    const g = hb_getGiveaway();
+    g.privateWinnerToken = token;
+    g.privateWinnerName  = name;
+    hb_saveGiveaway(g);
+
+    showWinnerLinkBox(token, name);
+    showToast('✓ Secret winner link generated!');
+  }
+
+  function showWinnerLinkBox(token, name) {
+    const box = document.getElementById('winnerLinkBox');
+    const url = location.origin + location.pathname.replace('admin.html', 'index.html') + '?w=' + token;
+    document.getElementById('winnerLinkOutput').value = url;
+    document.getElementById('privateLinkStatus').textContent = name ? 'Active — set for ' + name : 'Active';
+    box.style.display = '';
+  }
+
+  function copyWinnerLink() {
+    const input = document.getElementById('winnerLinkOutput');
+    input.select();
+    document.execCommand('copy');
+    const btn = document.getElementById('copyLinkBtn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  }
+
+  function clearPrivateWinner() {
+    if (!confirm('This will remove the winner link. The winner will no longer see "You Won". Continue?')) return;
+    const g = hb_getGiveaway();
+    g.privateWinnerToken = '';
+    g.privateWinnerName  = '';
+    hb_saveGiveaway(g);
+    document.getElementById('winnerLinkBox').style.display = 'none';
+    document.getElementById('privateWinnerName').value = '';
+    showToast('Winner link cleared.');
+  }
+
+  /* ── Entries ─────────────────────────────────────────────── */
+  function renderEntriesList() {
+    const entries = hb_getEntries();
+    const list  = document.getElementById('entriesList');
+    const count = document.getElementById('entriesCount');
+    if (!list) return;
+    count.textContent = entries.length + ' entr' + (entries.length === 1 ? 'y' : 'ies');
+    if (!entries.length) {
+      list.innerHTML = '<div class="entries-empty">No entries yet. Share the giveaway link to start collecting entries.</div>';
+      return;
+    }
+    list.innerHTML = entries.map(e => `
+      <div class="entry-row">
+        <div class="entry-row-info">
+          <div class="entry-row-name">${e.name}</div>
+          <div class="entry-row-meta">${e.email}${e.phone ? ' · ' + e.phone : ''} · ${e.location} · ${new Date(e.date).toLocaleDateString()}</div>
+        </div>
+        <button class="btn-pick-winner" onclick="selectEntryAsWinner('${e.id}')">Select as Winner</button>
+      </div>
+    `).join('');
+  }
+
+  function selectEntryAsWinner(id) {
+    const entry = hb_getEntries().find(e => e.id === id);
+    if (!entry) return;
+    document.getElementById('winnerName').value     = entry.name;
+    document.getElementById('winnerLocation').value = entry.location;
+    document.getElementById('winnerDate').value     = new Date().toISOString().split('T')[0];
+    updatePreview();
+    // Scroll to winner section
+    document.getElementById('winnerName').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showToast('✓ Winner filled in — click Save to publish!');
+  }
+
+  /* ── Site Settings ───────────────────────────────────────── */
+  let currentHeroImage = '';
+
+  function loadSiteSettings() {
+    const s = hb_getSiteSettings();
+    currentHeroImage = s.heroImage || '';
+    if (currentHeroImage) showHeroImgPreview(currentHeroImage);
+    const urlField = document.getElementById('heroImgUrl');
+    if (urlField && currentHeroImage && !currentHeroImage.startsWith('data:')) {
+      urlField.value = currentHeroImage;
+    }
+  }
+
+  function handleHeroImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return; }
+    const reader = new FileReader();
+    reader.onload = e => {
+      currentHeroImage = e.target.result;
+      showHeroImgPreview(e.target.result);
+      document.getElementById('heroImgUrl').value = '';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleHeroImgUrl(url) {
+    if (url) {
+      currentHeroImage = url;
+      showHeroImgPreview(url);
+      document.getElementById('heroImgInput').value = '';
+    }
+  }
+
+  function showHeroImgPreview(src) {
+    const wrap = document.getElementById('heroImgWrap');
+    wrap.classList.add('has-image');
+    document.getElementById('heroImgContent').innerHTML = `
+      <img src="${src}" class="image-preview" alt="Hero photo" onerror="clearHeroImg()"/>
+      <button type="button" class="clear-image-btn" onclick="clearHeroImg()">✕ Remove Photo</button>
+    `;
+  }
+
+  function clearHeroImg() {
+    currentHeroImage = '';
+    document.getElementById('heroImgUrl').value = '';
+    document.getElementById('heroImgInput').value = '';
+    const wrap = document.getElementById('heroImgWrap');
+    wrap.classList.remove('has-image');
+    document.getElementById('heroImgContent').innerHTML = `
+      <div class="upload-placeholder">
+        <div class="upload-icon">📸</div>
+        <div class="upload-text">Click to upload Hannah's photo</div>
+        <div class="upload-hint">Portrait photo recommended · JPG, PNG up to 5MB</div>
+      </div>`;
+  }
+
+  function saveSiteSettings() {
+    const btn = document.getElementById('saveSiteBtn');
+    btn.textContent = 'Saving...'; btn.classList.add('saving');
+    const urlField = document.getElementById('heroImgUrl').value.trim();
+    hb_saveSiteSettings({ heroImage: currentHeroImage || urlField || '' });
+    setTimeout(() => {
+      btn.textContent = 'Save Site Photos'; btn.classList.remove('saving');
+      showToast('✓ Site photos updated!');
+    }, 500);
+  }
+
+  /* ── News Image Handlers ──────────────────────────────────── */
+  function handleNewsImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return; }
+    const reader = new FileReader();
+    reader.onload = e => {
+      currentNewsImage = e.target.result;
+      showNewsImgPreview(e.target.result);
+      document.getElementById('newsImgUrl').value = '';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleNewsImgUrl(url) {
+    if (url) {
+      currentNewsImage = url;
+      showNewsImgPreview(url);
+    }
+  }
+
+  function showNewsImgPreview(src) {
+    const wrap = document.getElementById('newsImgWrap');
+    wrap.classList.add('has-image');
+    document.getElementById('newsImgContent').innerHTML = `
+      <img src="${src}" class="image-preview" alt="Article photo" onerror="clearNewsImgUI()"/>
+      <button type="button" class="clear-image-btn" onclick="clearNewsImg()">✕ Remove Photo</button>
+    `;
+  }
+
+  function clearNewsImg() {
+    currentNewsImage = '';
+    document.getElementById('newsImgUrl').value = '';
+    clearNewsImgUI();
+  }
+
+  function clearNewsImgUI() {
+    const wrap = document.getElementById('newsImgWrap');
+    if (!wrap) return;
+    wrap.classList.remove('has-image');
+    document.getElementById('newsImgInput').value = '';
+    document.getElementById('newsImgContent').innerHTML = `
+      <div class="upload-placeholder">
+        <div class="upload-icon">📰</div>
+        <div class="upload-text">Click to upload article photo</div>
+        <div class="upload-hint">JPG, PNG up to 5MB</div>
+      </div>`;
+  }
+
+  /* ── Store Products ───────────────────────────────────────── */
+  let currentProdImages = { prodImg: '', prodImg2: '', prodImg3: '' };
+
+  function renderStoreProductList() {
+    const products = hb_getProducts();
+    const list = document.getElementById('storeProductList');
+    if (!list) return;
+    if (!products.length) {
+      list.innerHTML = '<div class="news-empty">No products yet. Add your first one above.</div>';
+      return;
+    }
+    list.innerHTML = products.map(p => `
+      <div class="news-item">
+        <div class="news-item-info" style="display:flex;align-items:center;gap:14px;flex:1;min-width:0">
+          ${p.image
+            ? `<img src="${p.image}" style="width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0" onerror="this.style.display='none'"/>`
+            : `<div style="width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;background:${p.bg};border-radius:8px;flex-shrink:0">${p.emoji}</div>`}
+          <div style="min-width:0">
+            <div class="news-item-headline">${p.name}</div>
+            <div style="font-size:.78rem;color:var(--gray-300);margin-top:2px">
+              $${p.price.toFixed(2)} · ${p.category}${p.badge ? ' · ' + p.badge : ''}${p.active === false ? ' · <span style="color:var(--red-500)">Hidden</span>' : ''}
+            </div>
+          </div>
+        </div>
+        <div class="news-item-actions">
+          <button class="btn-edit" onclick="openProductModal('${p.id}')">Edit</button>
+          <button class="btn-delete" onclick="deleteProduct('${p.id}')">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openProductModal(id) {
+    currentProdImages = { prodImg: '', prodImg2: '', prodImg3: '' };
+    const modal = document.getElementById('productModal');
+    document.getElementById('editProductId').value = id || '';
+    document.getElementById('productModalTitle').textContent = id ? 'Edit Product' : 'Add Product';
+
+    // Reset form fields
+    ['prodName','prodDesc','prodSizes','prodEmoji','prodImgUrl'].forEach(f => { document.getElementById(f).value = ''; });
+    ['prodPrice','prodOrigPrice'].forEach(f => { document.getElementById(f).value = ''; });
+    document.getElementById('prodCategory').value = 'tees';
+    document.getElementById('prodBadge').value = '';
+    document.getElementById('prodActiveToggle').classList.add('on');
+    document.getElementById('prodFeaturedToggle').classList.remove('on');
+    clearProdImgUI('prodImg', 'prodImgWrap', 'prodImgContent', '🖼️', 'Click to upload main photo');
+    clearProdImgUI('prodImg2', 'prodImg2Wrap', 'prodImg2Content', '📸', 'Lifestyle 1');
+    clearProdImgUI('prodImg3', 'prodImg3Wrap', 'prodImg3Content', '📸', 'Lifestyle 2');
+    document.getElementById('lifestyleImgsGroup').style.display = 'none';
+
+    if (id) {
+      const p = hb_getProducts().find(x => x.id === id);
+      if (p) {
+        document.getElementById('prodName').value      = p.name;
+        document.getElementById('prodDesc').value      = p.description;
+        document.getElementById('prodSizes').value     = p.sizes.join(', ');
+        document.getElementById('prodEmoji').value     = p.emoji;
+        document.getElementById('prodPrice').value     = p.price;
+        document.getElementById('prodOrigPrice').value = p.origPrice || '';
+        document.getElementById('prodCategory').value  = p.category;
+        document.getElementById('prodBadge').value     = p.badge || '';
+        document.getElementById('prodActiveToggle').classList.toggle('on', p.active !== false);
+        document.getElementById('prodFeaturedToggle').classList.toggle('on', !!p.featured);
+        if (p.image)  { currentProdImages.prodImg  = p.image;  showProdImgPreview('prodImgWrap',  'prodImgContent',  p.image,  'prodImg'); }
+        if (p.image2) { currentProdImages.prodImg2 = p.image2; showProdImgPreview('prodImg2Wrap', 'prodImg2Content', p.image2, 'prodImg2'); }
+        if (p.image3) { currentProdImages.prodImg3 = p.image3; showProdImgPreview('prodImg3Wrap', 'prodImg3Content', p.image3, 'prodImg3'); }
+        if (p.featured) document.getElementById('lifestyleImgsGroup').style.display = '';
+      }
+    }
+    modal.classList.add('open');
+  }
+
+  function closeProductModal() {
+    document.getElementById('productModal').classList.remove('open');
+  }
+
+  function toggleLifestyleSection() {
+    const on = document.getElementById('prodFeaturedToggle').classList.contains('on');
+    document.getElementById('lifestyleImgsGroup').style.display = on ? '' : 'none';
+  }
+
+  function handleProdImage(input, dataKey, wrapId) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB'); return; }
+    const contentId = wrapId.replace('Wrap', 'Content');
+    const reader = new FileReader();
+    reader.onload = e => {
+      currentProdImages[dataKey] = e.target.result;
+      showProdImgPreview(wrapId, contentId, e.target.result, dataKey);
+      if (dataKey === 'prodImg') document.getElementById('prodImgUrl').value = '';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleProdImgUrl(url, dataKey, wrapId, contentId) {
+    if (url) {
+      currentProdImages[dataKey] = url;
+      showProdImgPreview(wrapId, contentId, url, dataKey);
+    }
+  }
+
+  function showProdImgPreview(wrapId, contentId, src, dataKey) {
+    document.getElementById(wrapId).classList.add('has-image');
+    document.getElementById(contentId).innerHTML = `
+      <img src="${src}" class="image-preview" alt="Preview" onerror="clearProdImgData('${dataKey}','${wrapId}','${contentId}')"/>
+      <button type="button" class="clear-image-btn" onclick="clearProdImgData('${dataKey}','${wrapId}','${contentId}')">✕ Remove</button>
+    `;
+  }
+
+  function clearProdImgData(dataKey, wrapId, contentId) {
+    currentProdImages[dataKey] = '';
+    const icon  = dataKey === 'prodImg' ? '🖼️' : '📸';
+    const label = dataKey === 'prodImg' ? 'Click to upload main photo' : dataKey === 'prodImg2' ? 'Lifestyle 1' : 'Lifestyle 2';
+    clearProdImgUI(dataKey, wrapId, contentId, icon, label);
+    if (dataKey === 'prodImg') document.getElementById('prodImgUrl').value = '';
+  }
+
+  function clearProdImgUI(dataKey, wrapId, contentId, icon, label) {
+    const wrap = document.getElementById(wrapId);
+    if (!wrap) return;
+    wrap.classList.remove('has-image');
+    const inputId = wrapId.replace('Wrap', 'Input');
+    const inp = document.getElementById(inputId);
+    if (inp) inp.value = '';
+    document.getElementById(contentId).innerHTML = `
+      <div class="upload-placeholder">
+        <div class="upload-icon">${icon}</div>
+        <div class="upload-text">${label}</div>
+        <div class="upload-hint">JPG, PNG up to 5MB</div>
+      </div>`;
+  }
+
+  function saveProduct() {
+    const name  = document.getElementById('prodName').value.trim();
+    const desc  = document.getElementById('prodDesc').value.trim();
+    const price = parseFloat(document.getElementById('prodPrice').value);
+    if (!name || !desc || isNaN(price)) { alert('Please fill in name, description, and price.'); return; }
+
+    const id          = document.getElementById('editProductId').value;
+    const sizesRaw    = document.getElementById('prodSizes').value;
+    const origPriceRaw= document.getElementById('prodOrigPrice').value;
+    const urlField    = document.getElementById('prodImgUrl').value.trim();
+
+    const product = {
+      id:          id || 'prod-' + Date.now(),
+      name,
+      price,
+      origPrice:   origPriceRaw ? parseFloat(origPriceRaw) : null,
+      category:    document.getElementById('prodCategory').value,
+      badge:       document.getElementById('prodBadge').value,
+      description: desc,
+      sizes:       sizesRaw ? sizesRaw.split(',').map(s => s.trim()).filter(Boolean) : [],
+      emoji:       document.getElementById('prodEmoji').value || '👕',
+      bg:          'linear-gradient(135deg,#2a3818,#4a5e20)',
+      image:       currentProdImages.prodImg || urlField || '',
+      image2:      currentProdImages.prodImg2 || '',
+      image3:      currentProdImages.prodImg3 || '',
+      featured:    document.getElementById('prodFeaturedToggle').classList.contains('on'),
+      active:      document.getElementById('prodActiveToggle').classList.contains('on'),
+    };
+
+    const products = hb_getProducts();
+    if (id) {
+      const existing = products.find(x => x.id === id);
+      if (existing) product.bg = existing.bg;
+      const idx = products.findIndex(x => x.id === id);
+      if (idx > -1) products[idx] = product; else products.push(product);
+    } else {
+      products.push(product);
+    }
+
+    hb_saveProducts(products);
+    closeProductModal();
+    renderStoreProductList();
+    showToast('✓ Product saved!');
+  }
+
+  function deleteProduct(id) {
+    if (!confirm('Delete this product? This cannot be undone.')) return;
+    hb_saveProducts(hb_getProducts().filter(p => p.id !== id));
+    renderStoreProductList();
+    showToast('Product deleted.');
+  }
+
+  document.getElementById('productModal').addEventListener('click', function(e) {
+    if (e.target === this) closeProductModal();
+  });
+</script>
+</body>
+</html>

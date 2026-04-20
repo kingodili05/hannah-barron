@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — Hannah Barron Outdoors</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Page Hero ──────────────────────────────────────────── */
+    .page-hero {
+      min-height: 60vh;
+      display: flex; align-items: flex-end;
+      padding-bottom: 72px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 70% 80% at 60% 30%, rgba(42,82,20,.5) 0%, transparent 60%),
+        linear-gradient(180deg, #040a03 0%, #0e2008 50%, #040a03 100%);
+    }
+    .page-hero-content { position: relative; z-index: 2; }
+    .page-hero-eyebrow {
+      font-family: var(--font-display); font-size: .75rem;
+      letter-spacing: 4px; text-transform: uppercase; color: var(--orange-400);
+      margin-bottom: 16px;
+      opacity: 0; animation: fadeUp 600ms var(--ease-out) 200ms forwards;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .page-hero-eyebrow::before {
+      content: ''; display: inline-block; width: 40px; height: 2px; background: var(--orange-500);
+    }
+    .page-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 700; text-transform: uppercase;
+      letter-spacing: -1px; line-height: 0.95; color: var(--white);
+      opacity: 0; animation: fadeUp 700ms var(--ease-out) 350ms forwards;
+    }
+    .page-hero-trees {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 40%; z-index: 1; pointer-events: none;
+    }
+    .page-hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to top, rgba(4,10,3,.9) 0%, rgba(4,10,3,.4) 40%, rgba(4,10,3,.2) 100%);
+    }
+
+    /* ── Bio Section ────────────────────────────────────────── */
+    .bio-section { padding: 100px 0; background: var(--cream); }
+    .bio-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    @media (max-width: 860px) { .bio-grid { grid-template-columns: 1fr; gap: 48px; } }
+    .bio-photo-wrap { position: relative; }
+    .bio-photo {
+      width: 100%; aspect-ratio: 3/4;
+      background: linear-gradient(145deg, #1a3810 0%, #2e5a1c 40%, #1a4010 100%);
+      border-radius: var(--radius-xl);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8rem;
+      position: relative; overflow: hidden;
+      box-shadow: var(--shadow-xl);
+    }
+    .bio-photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom right, rgba(255,255,255,.05) 0%, transparent 50%, rgba(0,0,0,.2) 100%);
+    }
+    .bio-badge {
+      position: absolute; bottom: -20px; right: -20px;
+      background: var(--orange-500);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      box-shadow: var(--shadow-lg);
+      animation: floatY 4s ease-in-out infinite;
+    }
+    .bio-badge-num {
+      font-family: var(--font-display); font-size: 2rem;
+      font-weight: 700; color: var(--white); line-height: 1;
+    }
+    .bio-badge-label { font-size: .72rem; color: rgba(255,255,255,.8); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+    .bio-stamp {
+      position: absolute; top: -16px; left: -16px;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--green-800);
+      border: 3px solid var(--orange-500);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      box-shadow: var(--shadow-md);
+      animation: stampIn 800ms var(--ease-out) 1s both;
+    }
+    .bio-text h2 { margin-bottom: 20px; }
+    .bio-text p {
+      font-size: 1rem; color: var(--gray-500); line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .bio-text p:last-of-type { margin-bottom: 32px; }
+    .bio-facts {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;
+    }
+    .bio-fact {
+      background: var(--cream-mid);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      border-left: 3px solid var(--orange-500);
+    }
+    .bio-fact-label {
+      font-family: var(--font-display); font-size: .7rem;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 4px;
+    }
+    .bio-fact-value {
+      font-weight: 600; font-size: .95rem; color: var(--green-900);
+    }
+
+    /* ── Timeline ───────────────────────────────────────────── */
+    .timeline-section { padding: 100px 0; background: var(--green-950); }
+    .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 50%; top: 0; bottom: 0;
+      width: 2px; background: rgba(255,255,255,.08);
+      transform: translateX(-50%);
+    }
+    @media (max-width: 640px) {
+      .timeline::before { left: 24px; }
+    }
+    .timeline-item {
+      display: grid; grid-template-columns: 1fr 48px 1fr; gap: 24px;
+      margin-bottom: 48px; align-items: start;
+    }
+    @media (max-width: 640px) {
+      .timeline-item { grid-template-columns: 48px 1fr; gap: 16px; }
+      .timeline-item .timeline-left { display: none; }
+    }
+    .timeline-item:nth-child(even) .timeline-left { order: 3; }
+    .timeline-item:nth-child(even) .timeline-center { order: 2; }
+    .timeline-item:nth-child(even) .timeline-right { order: 1; }
+    @media (max-width: 640px) {
+      .timeline-item:nth-child(even) .timeline-left,
+      .timeline-item:nth-child(even) .timeline-center,
+      .timeline-item:nth-child(even) .timeline-right { order: unset; }
+    }
+    .timeline-left { text-align: right; padding-top: 4px; }
+    .timeline-right { padding-top: 4px; }
+    .timeline-center {
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+    }
+    .timeline-dot {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--orange-500);
+      border: 3px solid var(--green-950);
+      display: grid; place-items: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 4px rgba(232,100,10,.2);
+    }
+    .timeline-year {
+      font-family: var(--font-display); font-size: .75rem;
+      letter-spacing: 2px; color: var(--orange-400);
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .timeline-title {
+      font-weight: 700; color: var(--white); margin-bottom: 6px; font-size: .95rem;
+    }
+    .timeline-desc { font-size: .85rem; color: rgba(255,255,255,.5); line-height: 1.65; }
+    .timeline-content-right { text-align: left; }
+    .timeline-content-left { text-align: right; }
+    @media (max-width: 640px) {
+      .timeline-content-left, .timeline-content-right { text-align: left; }
+    }
+
+    /* ── Values ─────────────────────────────────────────────── */
+    .values-section { padding: 100px 0; background: var(--cream); }
+    .values-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    @media (max-width: 768px) { .values-grid { grid-template-columns: 1fr; } }
+    .value-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      border: 1px solid var(--cream-mid);
+      text-align: center;
+    }
+    .value-icon { font-size: 3rem; margin-bottom: 20px; display: block; }
+    .value-title {
+      font-family: var(--font-display); font-size: 1.2rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--green-900); margin-bottom: 12px;
+    }
+    .value-desc { font-size: .9rem; color: var(--gray-500); line-height: 1.75; }
+
+    /* ── Press / As Seen ────────────────────────────────────── */
+    .press-section {
+      padding: 72px 0; background: var(--green-800);
+    }
+    .press-label {
+      text-align: center;
+      font-family: var(--font-display); font-size: .75rem;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: rgba(255,255,255,.4); margin-bottom: 40px;
+    }
+    .press-logos {
+      display: flex; align-items: center; justify-content: center;
+      gap: 48px; flex-wrap: wrap;
+    }
+    .press-logo {
+      font-family: var(--font-display); font-size: 1.1rem;
+      font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      color: rgba(255,255,255,.25);
+      transition: color 200ms var(--ease-out);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .press-logo:hover { color: rgba(255,255,255,.6); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav id="nav" class="solid">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-icon">🎣</div>Hannah Barron</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="media.html">Media</a></li>
+        <li><a href="store.html">Store</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-social">
+          <a href="#" aria-label="YouTube">▶</a>
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="TikTok">🎵</a>
+        </div>
+        <a href="store.html" class="btn btn-primary btn-sm">Shop Now</a>
+        <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Open menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="nav-mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="about.html" onclick="closeMobileMenu()">About</a>
+  <a href="media.html" onclick="closeMobileMenu()">Media</a>
+  <a href="store.html" onclick="closeMobileMenu()">Store</a>
+  <a href="contact.html" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="page-hero-trees" id="heroTrees" aria-hidden="true"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="container page-hero-content">
+    <div class="page-hero-eyebrow">Born & Raised in Alabama</div>
+    <h1 class="page-hero-title">About<br/>Hannah</h1>
+  </div>
+</section>
+
+<!-- Bio -->
+<section class="bio-section">
+  <div class="container">
+    <div class="bio-grid">
+      <div class="bio-photo-wrap reveal from-left">
+        <div class="bio-photo">👩</div>
+        <div class="bio-badge">
+          <div class="bio-badge-num">10+</div>
+          <div class="bio-badge-label">Years Outdoors</div>
+        </div>
+        <div class="bio-stamp">🏆</div>
+      </div>
+      <div class="reveal from-right">
+        <div class="section-tag">My Story</div>
+        <h2 class="section-title">Alabama Girl<br/>Living Wild</h2>
+        <p>I grew up in Crenshaw County, Alabama, surrounded by rivers, woods, and family who showed me that the outdoors isn't just a hobby — it's a way of life. My dad taught me to fish before I could read, and noodling became my obsession before I even knew it had a name.</p>
+        <p>After graduating from Troy University in 2018 with a B.S. degree, I committed fully to sharing this lifestyle with the world. What started as a few videos of me grabbing catfish out of underwater holes turned into a community of millions of people who love the outdoors as much as I do.</p>
+        <p>I'm not here to be perfect — I'm here to be real. Muddy boots, early mornings, and big catches. That's me.</p>
+        <div class="bio-facts">
+          <div class="bio-fact">
+            <div class="bio-fact-label">Hometown</div>
+            <div class="bio-fact-value">Crenshaw County, AL</div>
+          </div>
+          <div class="bio-fact">
+            <div class="bio-fact-label">Education</div>
+            <div class="bio-fact-value">Troy University, B.S. 2018</div>
+          </div>
+          <div class="bio-fact">
+            <div class="bio-fact-label">Specialty</div>
+            <div class="bio-fact-value">Catfish Noodling</div>
+          </div>
+          <div class="bio-fact">
+            <div class="bio-fact-label">Total Following</div>
+            <div class="bio-fact-value">5M+ Across Platforms</div>
+          </div>
+        </div>
+        <a href="contact.html" class="btn btn-primary">Work With Me</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section class="timeline-section">
+  <div class="container">
+    <div class="section-header centered reveal" style="margin-bottom:72px">
+      <div class="section-tag">My Journey</div>
+      <h2 class="section-title light">How It All Started</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-left timeline-content-left">
+          <div class="timeline-year">1996</div>
+          <div class="timeline-title">Born in Alabama</div>
+          <div class="timeline-desc">Born July 3rd in Crenshaw County, Alabama — right in the heart of catfish country.</div>
+        </div>
+        <div class="timeline-center"><div class="timeline-dot">👶</div></div>
+        <div class="timeline-right"></div>
+      </div>
+      <div class="timeline-item reveal" style="transition-delay:80ms">
+        <div class="timeline-left"></div>
+        <div class="timeline-center"><div class="timeline-dot">🎣</div></div>
+        <div class="timeline-right timeline-content-right">
+          <div class="timeline-year">2005</div>
+          <div class="timeline-title">First Noodling Trip</div>
+          <div class="timeline-desc">At just 9 years old, Dad took me on my first noodling trip. I was hooked — terrified and hooked.</div>
+        </div>
+      </div>
+      <div class="timeline-item reveal" style="transition-delay:160ms">
+        <div class="timeline-left timeline-content-left">
+          <div class="timeline-year">2015</div>
+          <div class="timeline-title">First YouTube Video</div>
+          <div class="timeline-desc">Posted my first catfish noodling video online. The response was unlike anything I expected — people loved it.</div>
+        </div>
+        <div class="timeline-center"><div class="timeline-dot">📹</div></div>
+        <div class="timeline-right"></div>
+      </div>
+      <div class="timeline-item reveal" style="transition-delay:240ms">
+        <div class="timeline-left"></div>
+        <div class="timeline-center"><div class="timeline-dot">🎓</div></div>
+        <div class="timeline-right timeline-content-right">
+          <div class="timeline-year">2018</div>
+          <div class="timeline-title">Troy University Graduate</div>
+          <div class="timeline-desc">Graduated with a B.S. degree and immediately turned my full focus to content creation and the outdoor life.</div>
+        </div>
+      </div>
+      <div class="timeline-item reveal" style="transition-delay:320ms">
+        <div class="timeline-left timeline-content-left">
+          <div class="timeline-year">2020</div>
+          <div class="timeline-title">1 Million Instagram Followers</div>
+          <div class="timeline-desc">Hit the million-follower milestone on Instagram. A moment I'll never forget. The Barron Nation was real.</div>
+        </div>
+        <div class="timeline-center"><div class="timeline-dot">🎉</div></div>
+        <div class="timeline-right"></div>
+      </div>
+      <div class="timeline-item reveal" style="transition-delay:400ms">
+        <div class="timeline-left"></div>
+        <div class="timeline-center"><div class="timeline-dot">🌟</div></div>
+        <div class="timeline-right timeline-content-right">
+          <div class="timeline-year">2026</div>
+          <div class="timeline-title">5M+ Combined Following</div>
+          <div class="timeline-desc">Now reaching millions across YouTube, Instagram, TikTok and Facebook — still doing what I love every single day.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="values-section">
+  <div class="container">
+    <div class="section-header centered reveal">
+      <div class="section-tag">What I Stand For</div>
+      <h2 class="section-title">My Values</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal" style="transition-delay:0ms">
+        <span class="value-icon">🌿</span>
+        <div class="value-title">Conservation</div>
+        <div class="value-desc">We must protect what we love. Responsible hunting and fishing, catch-and-release when right, and land stewardship are non-negotiable for me.</div>
+      </div>
+      <div class="value-card reveal" style="transition-delay:80ms">
+        <span class="value-icon">👨‍👩‍👧</span>
+        <div class="value-title">Family First</div>
+        <div class="value-desc">Every adventure is better shared. My family taught me everything I know, and everything I do honors that upbringing and those roots.</div>
+      </div>
+      <div class="value-card reveal" style="transition-delay:160ms">
+        <span class="value-icon">💪</span>
+        <div class="value-title">Authenticity</div>
+        <div class="value-desc">No filters, no fakeness. I show up as I am — muddy boots, big catches, and all the beautiful chaos of outdoor living.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Press -->
+<section class="press-section">
+  <div class="container">
+    <div class="press-label reveal">As Featured In</div>
+    <div class="press-logos reveal">
+      <div class="press-logo">Field & Stream</div>
+      <div class="press-logo">Outdoor Life</div>
+      <div class="press-logo">ESPN Outdoors</div>
+      <div class="press-logo">Fox News</div>
+      <div class="press-logo">Realtree</div>
+      <div class="press-logo">Bass Pro Shops</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><div class="nav-logo-icon">🎣</div>Hannah Barron</a>
+        <p>Alabama-born outdoor enthusiast, catfish noodler, and content creator sharing the wild life with millions.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="YouTube">▶</a>
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="TikTok">🎵</a>
+          <a href="#" aria-label="Facebook">👍</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Explore</div>
+        <ul class="footer-links">
+          <li><a href="about.html">About Hannah</a></li>
+          <li><a href="media.html">Videos & Media</a></li>
+          <li><a href="store.html">Merch Store</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Activities</div>
+        <ul class="footer-links">
+          <li><a href="#">Noodling</a></li>
+          <li><a href="#">Hunting</a></li>
+          <li><a href="#">Fishing</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <ul class="footer-links">
+          <li><a href="#">Brand Partnerships</a></li>
+          <li><a href="#">Media Inquiries</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Hannah Barron Outdoors. All rights reserved.</div>
+      <div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  function updateNav() { nav.classList.toggle('solid', window.scrollY > 60); nav.classList.toggle('transparent', window.scrollY <= 60); }
+  window.addEventListener('scroll', updateNav, { passive: true }); updateNav();
+
+  const mobileMenu = document.getElementById('mobileMenu');
+  document.getElementById('mobileMenuBtn').addEventListener('click', () => { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; });
+  function closeMobileMenu() { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; }
+  document.getElementById('mobileClose').addEventListener('click', closeMobileMenu);
+
+  const treesEl = document.getElementById('heroTrees');
+  [{ w:70,h:240,c:'#0a2a10',l:'3%'},{w:100,h:320,c:'#0d3018',l:'10%'},{w:60,h:200,c:'#081e08',l:'16%'},{w:85,h:280,c:'#0a2010',l:'80%'},{w:110,h:360,c:'#0e3015',l:'86%'},{w:65,h:220,c:'#081808',l:'93%'}].forEach(t => {
+    const el = document.createElement('div'); el.className = 'tree';
+    el.style.cssText = `width:${t.w}px;height:${t.h}px;background:${t.c};position:absolute;bottom:0;left:${t.l};`;
+    treesEl.appendChild(el);
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
