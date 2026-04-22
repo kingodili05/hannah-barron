@@ -14,7 +14,7 @@ const HB_DEFAULTS = {
       category: "tees", badge: "Featured", description: "The signature tee. Heather military green with a hand-drawn catfish noodling graphic in vintage gold ink. Soft tri-blend fabric.",
       sizes: ["S","M","L","XL","2XL","3XL"], emoji: "👕",
       bg: "linear-gradient(135deg,#2a3818,#4a5e20)",
-      image: "", image2: "", image3: "", featured: true, active: true
+      image: "hannah.jpg", image2: "hannah2.jpg", image3: "hannah3.jpg", featured: true, active: true
     },
     {
       id: "prod-2", name: "Noodler Snapback", price: 34.99, origPrice: null,
@@ -154,7 +154,19 @@ function hb_saveNews(articles) {
 function hb_getProducts() {
   try {
     const saved = localStorage.getItem('hb_products');
-    return saved ? JSON.parse(saved) : HB_DEFAULTS.products;
+    if (!saved) return HB_DEFAULTS.products;
+    const products = JSON.parse(saved);
+    // Merge images from defaults for any product missing them
+    return products.map(p => {
+      const def = HB_DEFAULTS.products.find(d => d.id === p.id);
+      if (!def) return p;
+      return {
+        ...p,
+        image:  p.image  || def.image  || '',
+        image2: p.image2 || def.image2 || '',
+        image3: p.image3 || def.image3 || '',
+      };
+    });
   } catch { return HB_DEFAULTS.products; }
 }
 
