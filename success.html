@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Confirmed — Hannah Barron Outdoors</title>
+  <script src="data.js"></script>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { background: var(--cream); display: flex; flex-direction: column; min-height: 100vh; }
+    .success-wrap {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .success-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--green-900); display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin: 0 auto 28px;
+      animation: popIn 500ms var(--ease-out) forwards;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .success-title {
+      font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700; text-transform: uppercase; letter-spacing: -0.5px;
+      color: var(--green-900); margin-bottom: 12px;
+    }
+    .success-sub {
+      font-size: 1.05rem; color: var(--gray-500); max-width: 420px; line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .success-btn {
+      display: inline-block; padding: 14px 32px;
+      background: var(--green-900); color: white;
+      border-radius: var(--radius-md); text-decoration: none;
+      font-family: var(--font-display); font-size: .9rem;
+      letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;
+      transition: background 150ms var(--ease-out);
+    }
+    .success-btn:hover { background: var(--green-700); }
+  </style>
+</head>
+<body>
+  <div class="success-wrap">
+    <div class="success-icon">✓</div>
+    <div class="success-title">Order Confirmed!</div>
+    <p class="success-sub">
+      Thanks for your purchase. A confirmation email is on its way from Stripe.
+      We'll get your gear shipped out soon!
+    </p>
+    <a href="store.html" class="success-btn">Keep Shopping</a>
+  </div>
+  <script>
+    // Clear cart after successful purchase
+    localStorage.removeItem('hb_cart');
+  </script>
+</body>
+</html>

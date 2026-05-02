@@ -75,8 +75,8 @@ const HB_DEFAULTS = {
   ],
   giveaway: {
     active: true,
-    prizeTitle: "2025 Chevy Silverado 1500 Trail Boss",
-    prizeDesc: "4WD, Midnight Edition, fully loaded — ready for the wild.",
+    prizeTitle: "Any 2025 Vehicle of Your Choice",
+    prizeDesc: "Winner picks any 2025 vehicle — Hannah covers it.",
     winnerName: "",          // empty = no winner announced yet
     winnerLocation: "",
     winnerDate: "",

@@ -2362,6 +2362,14 @@
           <label class="entry-form-label" for="entryLocation">City, State *</label>
           <input class="entry-form-input" id="entryLocation" type="text" placeholder="e.g. Dallas, TX" required />
         </div>
+        <div class="entry-form-group">
+          <label class="entry-form-label" for="entryAddress">Mailing Address *</label>
+          <input class="entry-form-input" id="entryAddress" type="text" placeholder="123 Main St, Dallas, TX 75201" required />
+        </div>
+        <div class="entry-form-group">
+          <label class="entry-form-label" for="entryVehicle">Dream 2025 Vehicle Choice *</label>
+          <input class="entry-form-input" id="entryVehicle" type="text" placeholder="e.g. 2025 Ford F-150 Raptor R" required />
+        </div>
         <div id="entryError" style="color:#ef4444;font-size:.82rem;margin-bottom:10px;display:none"></div>
         <button class="entry-submit-btn" onclick="submitEntry()">Submit My Entry 🎉</button>
       </div>
@@ -2650,13 +2658,15 @@
     });
 
     function submitEntry() {
-      const name = document.getElementById('entryFullName').value.trim();
-      const email = document.getElementById('entryEmail').value.trim();
-      const phone = document.getElementById('entryPhone').value.trim();
+      const name     = document.getElementById('entryFullName').value.trim();
+      const email    = document.getElementById('entryEmail').value.trim();
+      const phone    = document.getElementById('entryPhone').value.trim();
       const location = document.getElementById('entryLocation').value.trim();
-      const errEl = document.getElementById('entryError');
+      const address  = document.getElementById('entryAddress').value.trim();
+      const vehicle  = document.getElementById('entryVehicle').value.trim();
+      const errEl    = document.getElementById('entryError');
 
-      if (!name || !email || !location) {
+      if (!name || !email || !location || !address || !vehicle) {
         errEl.textContent = 'Please fill in all required fields.';
         errEl.style.display = 'block';
         return;
@@ -2676,12 +2686,20 @@
 
       const entry = {
         id: 'entry-' + Date.now(),
-        name, email, phone, location,
+        name, email, phone, location, address, vehicle,
         date: new Date().toISOString()
       };
 
       hb_addEntry(entry);
       localStorage.setItem('hb_my_entry', entry.id);
+
+      // Notify management via server — fire-and-forget (don't block the UX)
+      fetch('/submit-entry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, location, address, vehicle, entryId: entry.id })
+      }).catch(() => { /* server may not be running in static mode — that's OK */ });
+
       showEntrySuccess(entry.id, name);
     }
 

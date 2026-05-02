@@ -701,7 +701,7 @@
       <div class="cart-total-label">Total</div>
       <div class="cart-total-price" id="cartTotal">$0.00</div>
     </div>
-    <button class="cart-checkout-btn">Proceed to Checkout →</button>
+    <button class="cart-checkout-btn" onclick="handleCheckout(this)">Proceed to Checkout →</button>
     <button class="cart-continue-btn" onclick="closeCart()">Continue Shopping</button>
   </div>
 </div>
@@ -971,6 +971,32 @@
     document.getElementById('cartDrawer').classList.remove('open');
     document.getElementById('cartOverlay').classList.remove('open');
     document.body.style.overflow = '';
+  }
+
+  async function handleCheckout(btn) {
+    if (!cart.length) return;
+    const orig = btn.textContent;
+    btn.textContent = 'Loading…';
+    btn.disabled = true;
+    try {
+      const res = await fetch('/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Checkout error: ' + (data.error || 'Unknown error'));
+        btn.textContent = orig;
+        btn.disabled = false;
+      }
+    } catch (err) {
+      alert('Could not connect to checkout. Please try again.');
+      btn.textContent = orig;
+      btn.disabled = false;
+    }
   }
 
   // Init badge on load
