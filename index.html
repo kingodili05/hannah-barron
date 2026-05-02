@@ -2694,7 +2694,7 @@
       localStorage.setItem('hb_my_entry', entry.id);
 
       // Notify management via server — fire-and-forget (don't block the UX)
-      fetch('/submit-entry', {
+      fetch('/api/submit-entry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, phone, location, address, vehicle, entryId: entry.id })
