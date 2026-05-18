@@ -1121,9 +1121,17 @@
 
     const token = 'hbw_' + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
     const g = hb_getGiveaway();
+    const urlField = document.getElementById('truckImageUrl').value.trim();
     g.privateWinnerToken = token;
     g.privateWinnerName  = name;
+    g.prizeTitle = document.getElementById('prizeTitle').value.trim() || g.prizeTitle;
+    g.prizeDesc  = document.getElementById('prizeDesc').value.trim()  || g.prizeDesc;
+    g.truckImage = currentTruckImage || urlField || g.truckImage || '';
     hb_saveGiveaway(g);
+
+    if (g.truckImage && /imgur\.com\//i.test(g.truckImage) && !/i\.imgur\.com\//i.test(g.truckImage)) {
+      alert('Imgur tip: the link you pasted looks like an Imgur page, not a direct image.\n\nOn Imgur, right-click the image and choose "Copy image address". The correct link looks like:\n  https://i.imgur.com/ABCDEF.jpg\n\nPaste that in the photo URL field, then click Generate again.');
+    }
 
     showWinnerLinkBox(token, name);
     showToast('✓ Secret winner link generated!');
@@ -1131,9 +1139,22 @@
 
   function showWinnerLinkBox(token, name) {
     const box = document.getElementById('winnerLinkBox');
-    const url = location.origin + location.pathname.replace('admin.html', 'index.html') + '?w=' + token;
+    const g = hb_getGiveaway();
+    const params = new URLSearchParams();
+    params.set('w', token);
+    params.set('n', name);
+    if (g.prizeTitle) params.set('p', g.prizeTitle);
+    if (g.prizeDesc)  params.set('d', g.prizeDesc);
+    if (g.truckImage && /^https?:\/\//i.test(g.truckImage)) {
+      params.set('i', g.truckImage);
+    }
+    const url = location.origin + location.pathname.replace('admin.html', 'index.html') + '?' + params.toString();
     document.getElementById('winnerLinkOutput').value = url;
-    document.getElementById('privateLinkStatus').textContent = name ? 'Active — set for ' + name : 'Active';
+    let status = name ? 'Active — set for ' + name : 'Active';
+    if (g.truckImage && !/^https?:\/\//i.test(g.truckImage)) {
+      status += ' · Photo uploaded as file — paste a public image URL instead so it shows on other devices.';
+    }
+    document.getElementById('privateLinkStatus').textContent = status;
     box.style.display = '';
   }
 

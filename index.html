@@ -711,6 +711,35 @@
       max-width: 44ch;
       margin: 0 auto;
     }
+    .private-winner-cta {
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--hairline-dark);
+      max-width: 56ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .private-winner-cta-label {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--rust-400);
+      margin-bottom: 14px;
+    }
+    .private-winner-cta-text {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--bone-200);
+    }
+    .private-winner-cta-text a {
+      color: var(--rust-400);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      word-break: break-word;
+    }
+    .private-winner-cta-text a:hover { color: var(--rust-300, var(--rust-400)); }
 
     /* ─── News ─────────────────────────────────────────────────── */
     #news-section {
@@ -1855,26 +1884,75 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    /* ── Private winner token ────────────────────────────── */
-    (function () {
+    /* ── Private winner link (works across devices) ───────── */
+    const activeWinnerPayload = (function () {
       const params = new URLSearchParams(location.search);
-      const t = params.get('w');
-      if (t) {
-        localStorage.setItem('hb_winner_token', t);
+      const token = params.get('w');
+      const name  = params.get('n');
+
+      let payload = null;
+      if (token && name) {
+        payload = {
+          token,
+          privateWinnerName: name,
+          prizeTitle: params.get('p') || '',
+          prizeDesc:  params.get('d') || '',
+          image:      params.get('i') || '',
+        };
+        try {
+          localStorage.setItem('hb_winner_url_payload', JSON.stringify(payload));
+          localStorage.setItem('hb_winner_token', token);
+        } catch (e) {}
+        history.replaceState({}, '', location.pathname);
+        return payload;
+      }
+
+      if (token) {
+        localStorage.setItem('hb_winner_token', token);
         history.replaceState({}, '', location.pathname);
       }
+
+      try {
+        const raw = localStorage.getItem('hb_winner_url_payload');
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return null;
     })();
+
+    function scrollToGiveaway() {
+      const section = document.getElementById('giveaway-section');
+      if (!section) return;
+      requestAnimationFrame(() => {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
 
     /* ── Giveaway ────────────────────────────────────────── */
     function renderGiveaway() {
       const g = hb_getGiveaway();
       const section = document.getElementById('giveaway-section');
+
+      // URL-driven private winner — works on any device, even if g.active is false
+      if (activeWinnerPayload) {
+        section.classList.add('active');
+        renderPrivateWinner({
+          prizeTitle: activeWinnerPayload.prizeTitle || g.prizeTitle,
+          prizeDesc:  activeWinnerPayload.prizeDesc  || g.prizeDesc,
+          privateWinnerName: activeWinnerPayload.privateWinnerName,
+          truckImage: activeWinnerPayload.image || g.truckImage,
+        });
+        scrollToGiveaway();
+        return;
+      }
+
       if (!g.active) { section.classList.remove('active'); return; }
       section.classList.add('active');
 
+      // Same-device fallback: localStorage-stored token matches admin's saved giveaway state
       const myToken = localStorage.getItem('hb_winner_token');
       if (myToken && g.privateWinnerToken && myToken === g.privateWinnerToken) {
         renderPrivateWinner(g);
+        scrollToGiveaway();
         return;
       }
 
@@ -1926,16 +2004,28 @@
     function renderPrivateWinner(g) {
       const section = document.getElementById('giveaway-section');
       section.classList.add('active');
+      const photo = g.truckImage
+        ? `<div class="giveaway-photo" style="margin-bottom:40px;max-width:760px;margin-left:auto;margin-right:auto">
+             <img src="${g.truckImage}" alt="${g.prizeTitle || 'Prize'}" onerror="this.parentElement.style.display='none'"/>
+           </div>`
+        : '';
       section.querySelector('.giveaway-grid').innerHTML = `
         <div class="private-winner-wrap" style="grid-column:1/-1">
-          <div class="private-winner-badge">Winner Notification</div>
-          <div class="private-winner-title">You Won,<br/><span>${g.privateWinnerName || 'Congratulations'}</span></div>
+          <div class="private-winner-badge">Winner Announced</div>
+          <div class="private-winner-title">Congratulations,<br/><span>${g.privateWinnerName || ''}</span></div>
+          ${photo}
           <div class="private-winner-prize">
             ${g.prizeTitle ? `<strong>${g.prizeTitle}</strong><br/>` : ''}
-            ${g.prizeDesc || 'Hannah will be in touch with you shortly to arrange delivery.'}
+            ${g.prizeDesc || ''}
           </div>
-          <div class="private-winner-note">
-            This message is only visible to you. Hannah will reach out directly to arrange your prize.
+          <div class="private-winner-cta">
+            <div class="private-winner-cta-label">Claim Your Prize</div>
+            <div class="private-winner-cta-text">
+              Send an email to
+              <a href="mailto:officialmanagement@hannahbarronoutdoors.org">officialmanagement@hannahbarronoutdoors.org</a>
+              to arrange delivery.
+            </div>
+            <a href="mailto:officialmanagement@hannahbarronoutdoors.org" class="btn btn-primary btn-lg" style="margin-top:24px">Email To Claim</a>
           </div>
         </div>
       `;
