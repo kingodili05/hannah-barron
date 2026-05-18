@@ -6,32 +6,33 @@
   <title>Admin — Hannah Barron</title>
   <script src="data.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
 
     :root {
-      --green-950: #070f05;
-      --green-900: #0e1f0a;
-      --green-800: #1a3810;
-      --green-700: #275219;
-      --green-600: #346b22;
-      --orange-600: #c4520a;
-      --orange-500: #e8640a;
-      --orange-100: #fde4c8;
-      --cream: #faf6ef;
-      --cream-mid: #f0e8d8;
-      --white: #ffffff;
-      --gray-900: #111810;
-      --gray-700: #2d3b28;
-      --gray-500: #56694e;
-      --gray-300: #a8b8a0;
-      --gray-100: #e8f0e0;
-      --red-500: #ef4444;
-      --red-50: #fef2f2;
-      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --green-950: #14180f;
+      --green-900: #1c2116;
+      --green-800: #262d1f;
+      --green-700: #353d2c;
+      --green-600: #556b3c;
+      --orange-600: #b3441a;
+      --orange-500: #d05522;
+      --orange-100: #f4d8b8;
+      --cream: #f4efe4;
+      --cream-mid: #d8cdb4;
+      --white: #fbf8ef;
+      --gray-900: #1c2116;
+      --gray-700: #353d2c;
+      --gray-500: #8a7c5a;
+      --gray-400: #b8aa85;
+      --gray-300: #b8aa85;
+      --gray-100: #ebe4d3;
+      --red-500: #b3441a;
+      --red-50: #faece0;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--gray-900); }
+    body { font-family: 'Hanken Grotesk', sans-serif; background: var(--cream); color: var(--gray-900); }
     a { text-decoration: none; color: inherit; }
 
     /* ── Login Screen ───────────────────────────────────────── */
@@ -51,7 +52,7 @@
       text-align: center;
     }
     .login-logo {
-      font-family: 'Oswald', sans-serif;
+      font-family: 'Antonio', sans-serif;
       font-size: 1.3rem; font-weight: 700;
       letter-spacing: 2px; text-transform: uppercase;
       color: var(--green-900);
@@ -80,7 +81,7 @@
       width: 100%; padding: 14px;
       background: var(--orange-500); color: white;
       border: none; border-radius: 10px; cursor: pointer;
-      font-family: 'Oswald', sans-serif; font-size: 1rem;
+      font-family: 'Antonio', sans-serif; font-size: 1rem;
       font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
       transition: background 150ms var(--ease-out), transform 160ms var(--ease-out);
     }
@@ -101,7 +102,7 @@
       height: 64px; position: sticky; top: 0; z-index: 100;
     }
     .admin-nav-logo {
-      font-family: 'Oswald', sans-serif; font-weight: 700;
+      font-family: 'Antonio', sans-serif; font-weight: 700;
       letter-spacing: 2px; text-transform: uppercase; color: var(--white);
       display: flex; align-items: center; gap: 10px; font-size: 1.1rem;
     }
@@ -166,7 +167,7 @@
       margin-bottom: 24px;
     }
     .admin-card-title {
-      font-family: 'Oswald', sans-serif; font-size: 1.1rem;
+      font-family: 'Antonio', sans-serif; font-size: 1.1rem;
       font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
       color: var(--green-900); margin-bottom: 6px;
       display: flex; align-items: center; gap: 10px;
@@ -255,7 +256,7 @@
       padding: 12px 28px;
       background: var(--orange-500); color: white;
       border: none; border-radius: 10px; cursor: pointer;
-      font-family: 'Oswald', sans-serif; font-size: .95rem;
+      font-family: 'Antonio', sans-serif; font-size: .95rem;
       font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
       transition: background 150ms var(--ease-out), transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
       box-shadow: 0 4px 14px rgba(232,100,10,.3);
@@ -310,7 +311,7 @@
       text-align: center; color: white; margin-bottom: 24px;
     }
     .winner-preview-label { font-size: .72rem; letter-spacing: 3px; text-transform: uppercase; opacity: .6; margin-bottom: 8px; }
-    .winner-preview-name { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700; }
+    .winner-preview-name { font-family: 'Antonio', sans-serif; font-size: 1.8rem; font-weight: 700; }
     .winner-preview-truck { font-size: .9rem; opacity: .7; margin-top: 4px; }
     .winner-preview-empty { opacity: .4; font-style: italic; font-size: .9rem; }
 
@@ -364,7 +365,7 @@
       display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 28px;
     }
-    .modal-title { font-family: 'Oswald', sans-serif; font-size: 1.2rem; font-weight: 700; text-transform: uppercase; }
+    .modal-title { font-family: 'Antonio', sans-serif; font-size: 1.2rem; font-weight: 700; text-transform: uppercase; }
     .modal-close {
       width: 32px; height: 32px; border-radius: 50%;
       background: var(--cream); border: none; cursor: pointer;
@@ -420,7 +421,7 @@
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">
-      <div class="login-logo-icon">🎣</div>
+      <div class="login-logo-icon" style="font-family:'Antonio',sans-serif;font-weight:700;color:#fbf8ef;font-size:.78rem;letter-spacing:.04em">HB</div>
       Hannah Barron
     </div>
     <p class="login-sub">Admin Panel — Enter password to continue</p>
@@ -436,7 +437,7 @@
   <!-- Nav -->
   <nav class="admin-nav">
     <div class="admin-nav-logo">
-      <div class="admin-nav-logo-icon">🎣</div>
+      <div class="admin-nav-logo-icon" style="font-family:'Antonio',sans-serif;font-weight:700;color:#fbf8ef;font-size:.72rem;letter-spacing:.04em">HB</div>
       Hannah Barron
       <span class="admin-nav-badge">Admin</span>
     </div>
@@ -448,10 +449,10 @@
 
   <!-- Tabs -->
   <div class="admin-tabs">
-    <button class="admin-tab active" onclick="switchTab('giveaway', this)">🏆 Giveaway</button>
-    <button class="admin-tab" onclick="switchTab('news', this)">📰 News</button>
-    <button class="admin-tab" onclick="switchTab('store', this)">🛍️ Store</button>
-    <button class="admin-tab" onclick="switchTab('site', this)">🖼️ Site Photos</button>
+    <button class="admin-tab active" onclick="switchTab('giveaway', this)">Giveaway</button>
+    <button class="admin-tab" onclick="switchTab('news', this)">News</button>
+    <button class="admin-tab" onclick="switchTab('store', this)">Store</button>
+    <button class="admin-tab" onclick="switchTab('site', this)">Site Photos</button>
   </div>
 
   <!-- Content -->
@@ -462,7 +463,7 @@
 
       <!-- Toggle -->
       <div class="admin-card">
-        <div class="admin-card-title">🏆 Giveaway Status</div>
+        <div class="admin-card-title">Giveaway Status</div>
         <div class="admin-card-desc">Turn the giveaway section on or off on the front page.</div>
         <div class="toggle-wrap">
           <button class="toggle on" id="giveawayToggle" onclick="toggleGiveaway()"></button>
@@ -475,7 +476,7 @@
 
       <!-- Winner section -->
       <div class="admin-card">
-        <div class="admin-card-title">🎉 Current Winner</div>
+        <div class="admin-card-title">Current Winner</div>
         <div class="admin-card-desc">Fill in winner details to display a winner announcement on the front page. Leave Name blank to show "Enter to Win" instead.</div>
 
         <!-- Live preview -->
@@ -512,7 +513,7 @@
 
       <!-- Truck photo -->
       <div class="admin-card">
-        <div class="admin-card-title">🚚 Truck Photo</div>
+        <div class="admin-card-title">Prize Vehicle Photo</div>
         <div class="admin-card-desc">Upload a photo of the truck being given away, or the truck with the winner. JPG/PNG, recommended min 800×500px.</div>
 
         <div class="image-upload-wrap" id="truckUploadWrap">
@@ -533,7 +534,7 @@
 
       <!-- Entry link -->
       <div class="admin-card">
-        <div class="admin-card-title">🔗 Entry / CTA Settings</div>
+        <div class="admin-card-title">Entry / CTA Settings</div>
         <div class="admin-card-desc">The button fans click to enter the giveaway.</div>
         <div class="form-row">
           <div class="form-group">
@@ -549,7 +550,7 @@
 
       <!-- Private winner link -->
       <div class="admin-card" style="border:2px solid var(--orange-500)">
-        <div class="admin-card-title">🔐 Private Winner Link</div>
+        <div class="admin-card-title">Private Winner Link</div>
         <div class="admin-card-desc">
           Generate a secret link to send directly to the winner. <strong>Only the person with this link</strong> will see "You Won" — everyone else keeps seeing the entry form. The winner doesn't need to have entered.
         </div>
@@ -620,7 +621,7 @@
     <div id="panel-site" class="admin-panel">
 
       <div class="admin-card">
-        <div class="admin-card-title">📸 Hannah Hero Photo</div>
+        <div class="admin-card-title">Hannah Hero Photo</div>
         <div class="admin-card-desc">This photo appears on the right side of the homepage hero. Best results with a tall portrait photo (e.g. 600×900px). JPG or PNG.</div>
 
         <div class="image-upload-wrap" id="heroImgWrap">

@@ -1,7 +1,28 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dir \"c:\\\\Users\\\\HP\\\\hannah-barron\" /b)"
+      "Bash(dir \"c:\\\\Users\\\\HP\\\\hannah-barron\" /b)",
+      "Bash(npm install *)",
+      "Bash(npm audit *)",
+      "Bash(node -e \"require\\('resend'\\); console.log\\('resend OK'\\)\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(node *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/ http://localhost:3000/about.html http://localhost:3000/store.html http://localhost:3000/media.html http://localhost:3000/contact.html http://localhost:3000/admin.html http://localhost:3000/success.html http://localhost:3000/style.css)",
+      "Bash(PORT=4173 node server.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:4173/)",
+      "Bash(curl -s http://localhost:4173/)",
+      "Bash(curl -s http://localhost:4173/style.css)",
+      "Bash(curl -s http://localhost:4173/about.html)",
+      "Bash(curl -s http://localhost:4173/admin.html)",
+      "Bash(curl -sS -X POST -H \"Content-Type: application/json\" -d '{\"items\":[{\"name\":\"Test\",\"price\":10,\"qty\":1}]}' http://localhost:4173/create-checkout-session)",
+      "Bash(where chrome.exe)",
+      "Bash(where msedge.exe)",
+      "Read(//c/Program Files/Google/Chrome/Application/**)",
+      "Bash(where ngrok *)",
+      "Bash(where cloudflared *)"
     ]
   }
 }
